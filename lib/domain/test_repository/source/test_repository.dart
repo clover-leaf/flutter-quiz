@@ -8,5 +8,5 @@ class TestRepository {
 
   final TestApi _testApi;
 
-  Future<List<Quiz>> getTest(Map<String, String> parameters) async => _testApi.getTest(parameters);
+  Future<Test> getTest(Map<String, String> parameters) async => _testApi.getTest(parameters);
 }

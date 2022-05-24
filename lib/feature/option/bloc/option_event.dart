@@ -2,20 +2,17 @@ part of 'option_bloc.dart';
 
 abstract class OptionEvent {}
 
-// request get test
-class OptionTestRequested extends OptionEvent {}
-
 class OptionDifficultyChanged extends OptionEvent {
-  final TestDifficulty difficulty;
+  final String difficulty;
   OptionDifficultyChanged({required this.difficulty});
 }
 
 class OptionCategoryChanged extends OptionEvent {
-  final TestCategory category;
+  final String category;
   OptionCategoryChanged({required this.category});
 }
 
 class OptionTypeChanged extends OptionEvent {
-  final TestType type;
+  final String type;
   OptionTypeChanged({required this.type});
 }

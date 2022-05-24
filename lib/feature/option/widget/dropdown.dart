@@ -32,7 +32,7 @@ class Dropdown extends StatelessWidget {
             items: [
               ...itemList.map(
                 (item) =>
-                    DropdownMenuItem(value: item, child: Text(item.label)),
+                    DropdownMenuItem(value: item, child: Text(item)),
               )
             ],
             onChanged: (value) => onChanged.call(value!),

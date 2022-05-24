@@ -1,6 +1,5 @@
 import 'package:chicken/domain/test_repository/test_repository.dart';
 import 'package:chicken/feature/option/option.dart';
-import 'package:chicken/feature/room/room.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,10 +37,12 @@ class AppView extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (_) => const OptionPage(),
-        '/room': (_) => const RoomPage(),
-      },
+      // routes: {
+      //   '/': (_) => const OptionPage(),
+      //   '/room': (_) => const RoomPage(),
+      //   '/result': (_) => const ResultPage(),
+      // },
+      home: const OptionPage()
     );
   }
 }

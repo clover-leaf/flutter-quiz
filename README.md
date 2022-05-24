@@ -2,15 +2,12 @@
 
 A new Flutter project.
 
-## Getting Started
+## To do
 
-This project is a starting point for a Flutter application.
+- [ ] Migrate result screen
+- [ ] Migrate review screen
+- [ ] Add home screen
+- [ ] Add dark / light theme
+- [ ] Add theme icon in drawer of room screen
+- [ ] Add confirm when exit or submit of room screen
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

@@ -1,8 +1,9 @@
-import 'package:chicken/domain/test_repository/test_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chicken/feature/option/option.dart';
-import 'package:chicken/common/common.dart';
+import 'package:chicken/data/test_api/test_api.dart' show TestCategory, TestDifficulty, TestType;
+
+import 'package:chicken/feature/room/room.dart' show RoomPage;
 
 class OptionPage extends StatelessWidget {
   const OptionPage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class OptionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          OptionBloc(testRepository: context.read<TestRepository>()),
+          OptionBloc(),
       child: const OptionView(),
     );
   }
@@ -46,49 +47,49 @@ class OptionView extends StatelessWidget {
               ),
               Dropdown(
                   label: 'Difficulty',
-                  itemList: TestDifficulty.values,
+                  itemList: TestDifficulty.getAll(),
                   onChanged: (value) => context.read<OptionBloc>().add(
-                      OptionDifficultyChanged(
-                          difficulty: value as TestDifficulty)),
+                      OptionDifficultyChanged(difficulty: value as String)),
                   value: state.difficulty),
               const SizedBox(
                 height: 32,
               ),
               Dropdown(
                   label: 'Category',
-                  itemList: TestCategory.values,
-                  onChanged: (value) => context.read<OptionBloc>().add(
-                      OptionCategoryChanged(category: value as TestCategory)),
+                  itemList: TestCategory.getAll(),
+                  onChanged: (value) => context
+                      .read<OptionBloc>()
+                      .add(OptionCategoryChanged(category: value as String)),
                   value: state.category),
               const SizedBox(
                 height: 32,
               ),
               Dropdown(
                   label: 'Type',
-                  itemList: TestType.values,
+                  itemList: TestType.getAll(),
                   onChanged: (value) => context
                       .read<OptionBloc>()
-                      .add(OptionTypeChanged(type: value as TestType)),
+                      .add(OptionTypeChanged(type: value as String)),
                   value: state.type),
               const SizedBox(
                 height: 32,
               ),
               GestureDetector(
                 onTap: () {
-                  final Map<String, String> parameters = {};
-                  if (state.category != TestCategory.any) {
-                    parameters['category'] = state.category.value;
+                  final Map<String, String> parameters = {'amount': '10', 'duration': '3599'};
+                  if (state.category != 'Any') {
+                    parameters['category'] = TestCategory.getValue(state.category);
                   }
-                  if (state.difficulty != TestDifficulty.any) {
-                    parameters['difficulty'] = state.difficulty.value;
+                  if (state.difficulty != 'Any') {
+                    parameters['difficulty'] = TestDifficulty.getValue(state.difficulty);
                   }
-                  if (state.type != TestType.any) {
-                    parameters['type'] = state.type.value;
+                  if (state.type != 'Any') {
+                    parameters['type'] = TestType.getValue(state.type);
                   }
-                  Navigator.of(context).pushNamed('/room', arguments: {
-                    'parameters': parameters,
-                    'duration': 3599
-                  });
+                  Navigator.of(context).push(MaterialPageRoute(
+                    fullscreenDialog: true,
+                      builder: (context) =>
+                          RoomPage(parameters: parameters)));
                 },
                 child: const Coolbox().copyWith(
                   width: 120,

@@ -27,3 +27,7 @@ class TestDurationTicked extends TestDurationEvent {
   @override
   List<Object> get props => [durationAfterTicked];
 }
+
+class TestDurationShutdown extends TestDurationEvent {
+  const TestDurationShutdown();
+}

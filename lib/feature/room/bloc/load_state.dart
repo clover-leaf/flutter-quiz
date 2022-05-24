@@ -12,9 +12,9 @@ class LoadInitial extends LoadState {}
 class Loading extends LoadState {}
 
 class LoadSuccess extends LoadState {
-  final List<Quiz> quizzes;
+  final Test test;
 
-  const LoadSuccess({required this.quizzes});
+  const LoadSuccess({required this.test});
 }
 
 class LoadFailure extends LoadState {}

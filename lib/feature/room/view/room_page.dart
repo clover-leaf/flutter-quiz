@@ -4,28 +4,37 @@ import 'package:chicken/domain/test_repository/source/test_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:chicken/feature/result/result.dart' show ResultPage;
 import 'package:chicken/feature/room/room.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class RoomPage extends StatelessWidget {
-  const RoomPage({Key? key}) : super(key: key);
+  const RoomPage({Key? key, required this.parameters}) : super(key: key);
+
+  // parameters = {
+  //   String type?  // value of type in url
+  //   String category?  // value of category in url
+  //   String difficulty?  // value of difficulty in url
+  //   String duration!
+  //   String amount!
+  // }
+  final Map<String, String> parameters;
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     return MultiBlocProvider(providers: [
       BlocProvider(
         create: (context) =>
             LoadBloc(testRepository: context.read<TestRepository>())
-              ..add(Loaded(parameters: arguments['parameters'])),
+              ..add(Loaded(parameters: parameters)),
       ),
       BlocProvider(
         create: (context) => RoomBloc(),
       ),
       BlocProvider(
           create: (context) => TestDurationBloc(
-              ticker: const Ticker(), duration: arguments['duration'])),
+              ticker: const Ticker(),
+              duration: int.parse(parameters['duration']!))),
     ], child: RoomView());
   }
 }
@@ -47,18 +56,92 @@ class RoomView extends StatelessWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      endDrawer: Navbar(
-        answerSheet: answerSheetState,
-        onTap: (index) {
-          context
-              .read<RoomBloc>()
-              .add(RoomNavbarTapped(index: index, isTap: true));
-          Future.delayed(
-            const Duration(milliseconds: 16),
-            () => scaffoldKey.currentState!.closeEndDrawer(),
-          );
-        },
-      ),
+      endDrawer: Drawer(
+          elevation: 0,
+          width: 96,
+          backgroundColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 120, horizontal: 8),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: Text(
+                      'Answer',
+                      style: TextStyle(
+                        color: Color(Palette.black.color),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 480,
+                  child: ScrollablePositionedList.separated(
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 8,
+                          ),
+                      itemCount: answerSheetState.length,
+                      itemBuilder: (context, idx) {
+                        final ans = answerSheetState[idx];
+                        final bool isAnswered = ans.id != -1;
+                        return GestureDetector(
+                          onTap: () {
+                            context
+                                .read<RoomBloc>()
+                                .add(RoomNavbarTapped(index: idx, isTap: true));
+                            Future.delayed(
+                              const Duration(milliseconds: 16),
+                              () => scaffoldKey.currentState!.closeEndDrawer(),
+                            );
+                          },
+                          child: Coolbox(
+                            width: 52,
+                            bgColor: isAnswered
+                                ? Color(Palette.black.color)
+                                : Colors.white,
+                            child: Text('${ans.quizLabel}.${ans.label}',
+                                style: TextStyle(
+                                  color: isAnswered
+                                      ? Colors.white
+                                      : Color(Palette.black.color),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ),
+                        );
+                      }),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (loadState is LoadSuccess) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                                parameters: loadState.test
+                                    .copyWith(
+                                        answers: answerSheetState,
+                                        duration: testDurationState.duration)
+                                    .toMap(),
+                              )));
+                      context.read<TestDurationBloc>().close();
+                    }
+                  },
+                  child: Coolbox(
+                    width: 64,
+                    bgColor: Color(Palette.sapphire.color),
+                    child: const Text('Submit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                )
+              ],
+            ),
+          )),
       onEndDrawerChanged: (isOpen) {
         if (!isOpen & navbarIsTapped) {
           itemScrollController.scrollTo(
@@ -125,7 +208,7 @@ class RoomView extends StatelessWidget {
                           isActive:
                               testDurationState is TestDurationRunInProgress,
                           child: Text(
-                            testDurationState.duration.getTotalTime(),
+                            testDurationState.duration.getRemainTime(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 12,
@@ -157,8 +240,9 @@ class RoomView extends StatelessWidget {
                 case LoadSuccess:
                   if (testDurationState is TestDurationInitial) {
                     context.read<RoomBloc>().add(RoomCreated(
-                        quizzes: (loadState as LoadSuccess).quizzes));
+                        quizzes: (loadState as LoadSuccess).test.quizzes));
                   }
+                  // when room bloc done creating answer sheet
                   if (answerSheetState.isNotEmpty) {
                     context
                         .read<TestDurationBloc>()
@@ -167,10 +251,11 @@ class RoomView extends StatelessWidget {
                     return Expanded(
                       child: ScrollablePositionedList.separated(
                         itemScrollController: itemScrollController,
-                        itemCount: (loadState as LoadSuccess).quizzes.length,
+                        itemCount:
+                            (loadState as LoadSuccess).test.quizzes.length,
                         itemBuilder: (context, index) {
                           // build quiz
-                          final quiz = loadState.quizzes[index];
+                          final quiz = loadState.test.quizzes[index];
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

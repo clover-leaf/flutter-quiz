@@ -46,7 +46,7 @@ class Quiz {
       id: map['id'] as int,
       label: map['label'] as String,
       question: map['question'] as String,
-      answers: List<Answer>.from((map['answers'] as List<int>).map<Answer>((x) => Answer.fromMap(x as Map<String,dynamic>),),),
+      answers: List<Answer>.from((map['answers'] as List<dynamic>).map<Answer>((x) => Answer.fromMap(x as Map<String,dynamic>),),),
     );
   }
 

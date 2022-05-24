@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:chicken/feature/room/room.dart';
+import 'package:chicken/data/test_api/test_api.dart' show TestDuration;
 
 part 'test_duration_event.dart';
 part 'test_duration_state.dart';
@@ -14,7 +15,7 @@ class TestDurationBloc extends Bloc<TestDurationEvent, TestDurationState> {
 
   TestDurationBloc({required Ticker ticker, required int duration})
       : _ticker = ticker,
-        super(TestDurationInitial(TestDuration(total: duration, usedTime: 0))) {
+        super(TestDurationInitial(TestDuration(total: duration, remain: duration))) {
     on<TestDurationStarted>(_onStarted);
     on<TestDurationTicked>(_onTicked);
     on<TestDurationPaused>(_onPaused);
@@ -23,7 +24,6 @@ class TestDurationBloc extends Bloc<TestDurationEvent, TestDurationState> {
 
   @override
   Future<void> close() {
-    print('close');
     _tickerSubcription?.cancel();
     return super.close();
   }
@@ -38,12 +38,10 @@ class TestDurationBloc extends Bloc<TestDurationEvent, TestDurationState> {
   void _onTicked(TestDurationTicked event, Emitter<TestDurationState> emit) {
     if (event.durationAfterTicked > 0) {
       emit(TestDurationRunInProgress(TestDuration(
-          total: state.duration.total - 1,
-          usedTime: state.duration.total + 1)));
+          total: state.duration.total,
+          remain: state.duration.remain - 1)));
     } else {
-      emit(TestDurationRunComplete(TestDuration(
-          total: state.duration.total - 1,
-          usedTime: state.duration.total + 1)));
+      emit(TestDurationRunComplete(state.duration));
     }
   }
 

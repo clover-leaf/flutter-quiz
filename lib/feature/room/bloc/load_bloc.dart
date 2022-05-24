@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:chicken/data/test_api/test_api.dart' show Quiz;
+import 'package:chicken/data/test_api/test_api.dart' show Test;
 import 'package:chicken/domain/test_repository/test_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -18,8 +18,8 @@ class LoadBloc extends Bloc<LoadEvent, LoadState> {
   Future<void> _onLoaded(Loaded event, Emitter<LoadState> emit) async {
     emit(Loading());
     try {
-      List<Quiz> quizzes = await _testRepository.getTest(event.parameters);
-      emit(LoadSuccess(quizzes: quizzes));
+      Test test = await _testRepository.getTest(event.parameters);
+      emit(LoadSuccess(test: test));
     } catch (e) {
       emit(LoadFailure());
     }

@@ -14,9 +14,15 @@ class RemoteTestApi extends TestApi {
   final String _basePath = '/api.php';
 
   @override
-  Future<List<Quiz>> getTest(Map<String, String> parameters) async {
+  Future<Test> getTest(Map<String, String> parameters) async {
+    if (!(parameters.containsKey('amount') &
+        parameters.containsKey('duration'))) {
+      throw Exception('not contain enough parameter to get api');
+    }
+    final int duration = int.parse(parameters['duration']!);
+    // remove duration para because api dont need it
+    parameters.remove('duration');
     parameters['encode'] = 'url3986';
-    parameters['amount'] = '10';
     final response =
         await _httpClient.get(Uri.https(_baseURL, _basePath, parameters));
 
@@ -51,7 +57,14 @@ class RemoteTestApi extends TestApi {
             question: decode_question,
             answers: shuffle_answer);
       }).toList();
-      return quizzes;
+      final test = Test(
+          difficulty: TestDifficulty(label: parameters['difficulty'] ?? 'Any'),
+          type: TestType(label: parameters['type'] ?? 'Any'),
+          category: TestCategory(label: parameters['category'] ?? 'Any'),
+          duration: TestDuration(total: duration, remain: duration),
+          answers: [],
+          quizzes: quizzes);
+      return test;
     } else {
       throw Exception('cant get test');
     }
