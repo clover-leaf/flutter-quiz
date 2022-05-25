@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## To do
 
-- [ ] Migrate result screen
+- [x] Migrate result screen
 - [ ] Migrate review screen
 - [ ] Add home screen
 - [ ] Add dark / light theme

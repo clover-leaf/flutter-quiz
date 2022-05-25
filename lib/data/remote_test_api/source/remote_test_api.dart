@@ -57,12 +57,23 @@ class RemoteTestApi extends TestApi {
             question: decode_question,
             answers: shuffle_answer);
       }).toList();
+      // create prototype answers list
+      final List<Answer> answers = [];
+      for (var quiz in quizzes) {
+        answers.add(Answer(
+            id: -1,
+            quizId: quiz.id,
+            quizLabel: quiz.label,
+            label: '',
+            answer: '',
+            isCorrect: false));
+      }
       final test = Test(
           difficulty: TestDifficulty(label: parameters['difficulty'] ?? 'Any'),
           type: TestType(label: parameters['type'] ?? 'Any'),
           category: TestCategory(label: parameters['category'] ?? 'Any'),
           duration: TestDuration(total: duration, remain: duration),
-          answers: [],
+          answers: answers,
           quizzes: quizzes);
       return test;
     } else {

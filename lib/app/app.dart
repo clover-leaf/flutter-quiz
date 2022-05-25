@@ -28,20 +28,10 @@ class AppView extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        dividerTheme: DividerThemeData(
-          space: 16,
-          thickness: 1.6,
-          color: Colors.black.withOpacity(0.7),
-        ),
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      // routes: {
-      //   '/': (_) => const OptionPage(),
-      //   '/room': (_) => const RoomPage(),
-      //   '/result': (_) => const ResultPage(),
-      // },
       home: const OptionPage()
     );
   }
