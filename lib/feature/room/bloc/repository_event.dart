@@ -12,3 +12,5 @@ class GetTest extends RepositoryEvent {
 
   const GetTest(this.parameters);
 }
+
+class Show extends RepositoryEvent {}

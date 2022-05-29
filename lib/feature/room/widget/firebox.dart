@@ -9,8 +9,8 @@ class Firebox extends StatelessWidget {
     super.key,
     this.height = 32,
     this.width = 32,
-    this.borderRadius = 8,
-    this.borderWidth = 1.6,
+    required this.borderRadius,
+    required this.borderWidth,
     required this.text,
     required this.quizIndex,
     required this.answerId,
@@ -27,7 +27,7 @@ class Firebox extends StatelessWidget {
       height: height,
       width: width,
       child: Stack(alignment: Alignment.bottomCenter, children: [
-        BlocBuilder<UtilBloc, UtilState>(
+        BlocBuilder<AnswerBloc, AnswerState>(
           buildWhen: (previous, current) {
             final prevId = previous.answersheet[quizIndex].id;
             final curId = current.answersheet[quizIndex].id;
@@ -40,15 +40,15 @@ class Firebox extends StatelessWidget {
             return AnimatedContainer(
               curve: Curves.easeOutCubic,
               height: animatedHeight,
-              width: animatedHeight < 16 ? animatedHeight + 8 : width,
-              duration: const Duration(milliseconds: 400),
+              width: 16 + animatedHeight / height * 16,
+              duration:  Duration(milliseconds: Constant.FILL_BOX_TRANS_DURATION.value.toInt()),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: Color(Palette.black.color)),
+                  color: Theme.of(context).primaryColor),
             );
           },
         ),
-        BlocBuilder<UtilBloc, UtilState>(
+        BlocBuilder<AnswerBloc, AnswerState>(
           buildWhen: (previous, current) {
             final prevId = previous.answersheet[quizIndex].id;
             final curId = current.answersheet[quizIndex].id;
@@ -60,12 +60,11 @@ class Firebox extends StatelessWidget {
             return Center(
                 child: AnimatedDefaultTextStyle(
               curve: Curves.easeOutCubic,
-              duration: const Duration(milliseconds: 400),
-              style: TextStyle(
-                  color: isActive ? Colors.white : Color(Palette.black.color),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  height: 1.4),
+              duration: Duration(milliseconds: Constant.FILL_BOX_TRANS_DURATION.value.toInt()),
+              style: Theme.of(context).textTheme.headline1!.copyWith(
+                    height: 1.6,
+                    color: isActive ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
+                  ),
               child: Text(text),
             ));
           },
@@ -73,7 +72,7 @@ class Firebox extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-            border: Border.all(color: Colors.black, width: borderWidth),
+            border: Border.all(color: Theme.of(context).primaryColor, width: borderWidth),
           ),
         ),
       ]),

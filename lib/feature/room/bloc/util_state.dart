@@ -1,21 +1,44 @@
 part of 'util_bloc.dart';
 
 class UtilState extends Equatable {
-  const UtilState(this.answersheet, this.tapIndex, this.isScroll);
+  const UtilState(this.tapIndex, this.isScroll,
+      {this.isCloseTab = false,
+      this.isOpenTab = false,
+      this.offsetDx = 0,
+      this.offsetDy = 0});
 
-  final List<Answer> answersheet;
   final int tapIndex;
   final bool isScroll;
+  final double offsetDx;
+  final double offsetDy;
+  final bool isOpenTab;
+  final bool isCloseTab;
 
   @override
-  List<Object> get props => [answersheet, tapIndex, isScroll];
+  List<Object> get props => [
+        tapIndex,
+        isScroll,
+        offsetDx,
+        offsetDy,
+        isOpenTab,
+        isCloseTab
+      ];
 
   UtilState copyWith({
-    List<Answer>? answersheet,
     int? tapIndex,
     bool? isScroll,
+    double? offsetDx,
+    double? offsetDy,
+    bool? isOpenTab,
+    bool? isCloseTab,
   }) {
-    return UtilState(answersheet ?? this.answersheet, tapIndex ?? this.tapIndex,
-        isScroll ?? this.isScroll);
+    return UtilState(
+      tapIndex ?? this.tapIndex,
+      isScroll ?? this.isScroll,
+      offsetDx: offsetDx ?? this.offsetDx,
+      offsetDy: offsetDy ?? this.offsetDy,
+      isOpenTab: isOpenTab ?? this.isOpenTab,
+      isCloseTab: isCloseTab ?? this.isCloseTab,
+    );
   }
 }

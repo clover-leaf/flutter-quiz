@@ -26,30 +26,36 @@ class RoomPage extends StatelessWidget {
               ),
             );
           }
-          print(state.runtimeType);
         },
         buildWhen: (previous, current) {
-          return previous.runtimeType != current.runtimeType;
+          return current is! RepositoryLoading &&
+              previous.runtimeType != current.runtimeType;
         },
         builder: (context, state) {
-          if (state is RepositoryInitial) {
-            return const LoadingPage();
-          }
-          if (state is RepositoryLoading) {
+          if (state is RepositoryLoading || state is RepositoryInitial) {
             return const LoadingPage();
           }
           if (state is RepositoryLoaded) {
+            final double deviceHeight = MediaQuery.of(context).size.height;
+            final ItemScrollController itemScrollController = ItemScrollController();
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) =>
-                      UtilBloc(answersheet: state.test.answers),
+                  create: (context) => UtilBloc(
+                      deviceHeight: deviceHeight,
+                      initOffset: deviceHeight * 3 / 5,
+                      ),
+                ),
+                BlocProvider(
+                  create: (context) => AnswerBloc(
+                      answersheet: state.test.answers,
+                      ),
                 ),
                 BlocProvider(
                     create: (context) =>
                         TimerBloc()..add(TimerStart(state.test.duration))),
               ],
-              child: RoomView(),
+              child: TestPage(scrollController: itemScrollController,),
             );
           }
           if (state is RepositoryError) {
@@ -59,89 +65,5 @@ class RoomPage extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class RoomView extends StatelessWidget {
-  RoomView({Key? key}) : super(key: key);
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final ItemScrollController itemScrollController = ItemScrollController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        endDrawer: Sidebox(
-            numberOfQuiz:
-                (context.read<RepositoryBloc>().state as RepositoryLoaded)
-                    .test
-                    .answers
-                    .length,
-            scaffoldKey: scaffoldKey),
-        onEndDrawerChanged: (isOpen) {
-          if (!isOpen && context.read<UtilBloc>().state.isScroll) {
-            itemScrollController.scrollTo(
-                index: context.read<UtilBloc>().state.tapIndex,
-                duration: const Duration(milliseconds: 400));
-          }
-        },
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 48,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    // GestureDetector(
-                    //   behavior: HitTestBehavior.opaque,
-                    //   onTap: () => {print('exit')},
-                    //   child: SizedBox(
-                    //       height: 24,
-                    //       width: 24,
-                    //       child: Center(
-                    //         child: Image.asset('assets/images/chevron.png'),
-                    //       )),
-                    // ),
-                    Timerbox(),
-                    // GestureDetector(
-                    //   behavior: HitTestBehavior.opaque,
-                    //   onTap: () => scaffoldKey.currentState?.openEndDrawer(),
-                    //   child: SizedBox(
-                    //       height: 24,
-                    //       width: 24,
-                    //       child: Center(
-                    //         child: Image.asset('assets/images/list.png'),
-                    //       )),
-                    // ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ScrollablePositionedList.separated(
-                  itemScrollController: itemScrollController,
-                  itemCount:
-                      (context.read<RepositoryBloc>().state as RepositoryLoaded)
-                          .test
-                          .answers
-                          .length,
-                  itemBuilder: (context, quizIndex) {
-                    final quiz = (context.read<RepositoryBloc>().state
-                            as RepositoryLoaded)
-                        .test
-                        .quizzes[quizIndex];
-                    return Quizbox(quiz: quiz, quizIndex: quizIndex);
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 16,
-                  ),
-                ),
-              )
-            ],
-          ),
-        )));
   }
 }

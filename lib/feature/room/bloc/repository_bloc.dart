@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,7 +21,7 @@ class RepositoryBloc extends Bloc<RepositoryEvent, RepositoryState> {
     emit(RepositoryLoading());
     try {
       Test test = await _testRepository.getTest(event.parameters);
-      emit(RepositoryLoaded(test));
+      await Future.delayed(const Duration(milliseconds: 1000), () => emit(RepositoryLoaded(test)));
     } catch (e) {
       emit(const RepositoryError());
     }

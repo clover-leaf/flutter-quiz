@@ -76,7 +76,7 @@ class OptionView extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  final Map<String, String> parameters = {'amount': '10', 'duration': '3599'};
+                  final Map<String, String> parameters = {'amount': '30', 'duration': '600'};
                   if (state.category != 'Any') {
                     parameters['category'] = TestCategory.getValue(state.category);
                   }

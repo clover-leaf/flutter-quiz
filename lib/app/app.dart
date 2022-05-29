@@ -1,6 +1,7 @@
+import 'package:chicken/app/cubit/theme_cubit.dart';
+import 'package:chicken/common/common.dart';
 import 'package:chicken/domain/test_repository/test_repository.dart';
 import 'package:chicken/feature/option/option.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,16 +24,17 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        ),
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.white,
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, bool>(
+        builder: (context, isDark) {
+          return MaterialApp(
+                theme: isDark ? AppTheme.dark : AppTheme.light,
+                debugShowCheckedModeBanner: false,
+                home: const OptionPage()
+              );
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      home: const OptionPage()
     );
   }
 }
