@@ -108,7 +108,7 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(
           iconSvg,
@@ -118,10 +118,108 @@ class ThemeButton extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(themeMode, style: Theme.of(context).textTheme.headline2!.copyWith(height: 0.9)),
-            Text('mode', style: Theme.of(context).textTheme.headline2!.copyWith(height: 0.9)),
+            Text(themeMode,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2!
+                    .copyWith(height: 0.9)),
+            Text('mode',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2!
+                    .copyWith(height: 0.9)),
           ],
         )
+      ],
+    );
+  }
+}
+
+class Timerbox extends StatelessWidget {
+  const Timerbox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        SvgPicture.asset(
+          'assets/images/clock.svg',
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        const SizedBox(width: 8),
+        BlocBuilder<TimerBloc, TimerState>(
+          builder: (context, state) {
+            String minute, second;
+            if (state is TimerInitial) {
+              minute = '00';
+              second = '00';
+            } else if (state is TimerRun) {
+              final String remain = state.duration!.getRemainTime();
+              minute = remain.substring(remain.length - 5, remain.length - 3);
+              second = remain.substring(remain.length - 2);
+            } else if (state is TimerComplete) {
+              minute = '00';
+              second = '00';
+            } else {
+              minute = '00';
+              second = '00';
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('$minute min',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline2!
+                        .copyWith(height: 1)),
+                Text('$second sec',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline2!
+                        .copyWith(height: 1)),
+              ],
+            );
+          },
+        )
+      ],
+    );
+
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: SvgPicture.asset(
+            'assets/images/clock.svg',
+            height: 20,
+            width: 20,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        BlocBuilder<TimerBloc, TimerState>(
+          buildWhen: (previous, current) =>
+              previous.runtimeType != current.runtimeType,
+          builder: (context, state) {
+            String time;
+            if (state is TimerInitial) {
+              time = '00:00:00';
+            } else if (state is TimerRun) {
+              time = state.duration!.getRemainTime();
+            } else if (state is TimerComplete) {
+              time = '00:00:00';
+            } else {
+              time = '00:00:00';
+            }
+            return Text(
+              time,
+              style: Theme.of(context).textTheme.headline2!.copyWith(height: 1),
+            );
+          },
+        ),
       ],
     );
   }

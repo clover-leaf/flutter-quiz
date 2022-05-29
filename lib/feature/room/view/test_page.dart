@@ -46,6 +46,26 @@ class TestPage extends StatelessWidget {
               ),
               BlocBuilder<UtilBloc, UtilState>(
                 buildWhen: (previous, current) =>
+                    previous.offsetDx != current.offsetDx &&
+                    (current.offsetDx == Constant.SIDETAB_WIDTH.value ||
+                        previous.offsetDx == Constant.SIDETAB_WIDTH.value),
+                builder: (context, state) {
+                  if (state.isOpenTab) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => context.read<UtilBloc>().add(ToggleTab()),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Theme.of(context).primaryColor.withAlpha(106),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+              BlocBuilder<UtilBloc, UtilState>(
+                buildWhen: (previous, current) =>
                     previous.offsetDx != current.offsetDx ||
                     current.isCloseTab ||
                     current.isOpenTab,
@@ -114,29 +134,6 @@ class TestPage extends StatelessWidget {
                           )));
                 },
               ),
-              // BlocBuilder<UtilBloc, UtilState>(
-              //   buildWhen: (previous, current) =>
-              //       previous.offsetDx != current.offsetDx ||
-              //       previous.offsetDy != current.offsetDy ||
-              //       current.isCloseTab ||
-              //       current.isOpenTab,
-              //   builder: (context, state) {
-              //     return AnimatedPositioned(
-              //         duration: (state.isOpenTab || state.isCloseTab)
-              //             ? Duration(
-              //                 milliseconds:
-              //                     Constant.SIDETAB_TRANS_DURATION.value as int)
-              //             : const Duration(seconds: 0),
-              //         top: state.offsetDy + 34,
-              //         right: state.offsetDx,
-              //         child: SvgPicture.asset(
-              //           'assets/images/arrow-left.svg',
-              //           color: Theme.of(context).scaffoldBackgroundColor,
-              //           width: 26,
-              //           height: 26,
-              //         ));
-              //   },
-              // ),
             ],
           ),
         ));

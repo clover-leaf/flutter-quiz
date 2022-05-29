@@ -68,7 +68,7 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
 
   void _onCloseTabEnd(CloseTabEnd event, Emitter<UtilState> emit) {
     if (state.isScroll) {
-      event.controller.jumpTo(index: state.tapIndex);
+      event.controller.jumpTo(index: state.tapIndex, alignment: 0.01);
     }
     emit(state.copyWith(isCloseTab: false));
   }

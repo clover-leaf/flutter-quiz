@@ -24,12 +24,12 @@ class MoveButton extends UtilEvent {
 
 class DragDxEnd extends UtilEvent {}
 
-class ToggleTab extends UtilEvent {
-}
+class ToggleTab extends UtilEvent {}
 
 class OpenTabEnd extends UtilEvent {}
 
 class CloseTabEnd extends UtilEvent {
   final ItemScrollController controller;
 
-  const CloseTabEnd({required this.controller});}
+  const CloseTabEnd({required this.controller});
+}
