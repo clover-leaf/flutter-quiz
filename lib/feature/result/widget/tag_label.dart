@@ -1,37 +1,28 @@
 
 import 'package:flutter/material.dart';
 
-class TagLabel extends StatelessWidget {
-  const TagLabel({
-    super.key,
-    required this.tag,
-    required this.content,
-  });
+class Tag extends StatelessWidget {
+  const Tag({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
 
-  final String tag, content;
+  final String label;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          tag,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 11,
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
+        Text(label,
+            style: Theme.of(context).textTheme.headline1!.copyWith(
+                color: Theme.of(context).primaryColor.withAlpha(193))),
+        const SizedBox(
+          height: 4,
         ),
-        Text(
-          content,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
-        ),
+        Text(value, style: Theme.of(context).textTheme.headline1)
       ],
     );
   }

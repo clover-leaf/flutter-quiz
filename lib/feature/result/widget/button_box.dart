@@ -1,6 +1,7 @@
-import 'package:chicken/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'package:chicken/common/common.dart';
 
 class Buttonbox extends StatelessWidget {
   const Buttonbox({
@@ -20,22 +21,23 @@ class Buttonbox extends StatelessWidget {
         width: width ?? double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(Constant.BORDER_RADIUS.value)),
-            color: Theme.of(context).scaffoldBackgroundColor),
+            color: Theme.of(context).primaryColor),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 4, 0),
+              padding: const EdgeInsets.only(right: 8),
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: SvgPicture.asset(
                   iconSvg,
                   height: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
                   width: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
               ),
             ),
-            Text(label, style: Theme.of(context).textTheme.headline1),
+            Text(label, style: Theme.of(context).textTheme.headline2),
           ],
         ));
   }

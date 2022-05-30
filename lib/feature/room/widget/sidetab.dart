@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:chicken/feature/room/room.dart';
 import 'package:chicken/common/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:chicken/feature/result/result.dart' show ResultPage;
+import 'package:chicken/data/test_api/test_api.dart' show Test;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Sidetab extends StatelessWidget {
@@ -48,20 +50,34 @@ class Sidetab extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Buttonbox(
-                iconSvg: 'assets/images/submit.svg',
-                label: 'Submit',
-                height: 40,
-                borderRadius: Constant.BORDER_RADIUS.value,
+              GestureDetector(
+                onTap: () {
+                  final Test submitTest = (context.read<RepositoryBloc>().state
+                          as RepositoryLoaded)
+                      .test
+                      .copyWith(
+                        answers: context.read<AnswerBloc>().state.answersheet,
+                        duration: context.read<TimerBloc>().state.duration,
+                      );
+                  context.read<TimerBloc>().close();
+                  context.read<AnswerBloc>().close();
+                  context.read<UtilBloc>().close();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ResultPage(parameters: submitTest.toMap())));
+                  context.read<RepositoryBloc>().close();
+                },
+                child: Buttonbox(
+                  iconSvg: MyIcon.SUBMIT.value,
+                  label: 'Submit',
+                ),
               ),
               const SizedBox(
                 height: 16,
               ),
               Buttonbox(
-                iconSvg: 'assets/images/logout.svg',
+                iconSvg: MyIcon.LOGOUT.value,
                 label: 'Exit',
-                height: 40,
-                borderRadius: Constant.BORDER_RADIUS.value,
               ),
               Expanded(
                   child: Column(
@@ -71,27 +87,15 @@ class Sidetab extends StatelessWidget {
                       behavior: HitTestBehavior.opaque,
                       onTap: () => context.read<ThemeCubit>().toggle(),
                       child: Theme.of(context).brightness == Brightness.light
-                          ? const ThemeButton(
-                              iconSvg: 'assets/images/light.svg',
-                              themeMode: 'light')
-                          : const ThemeButton(
-                              iconSvg: 'assets/images/dark.svg',
-                              themeMode: 'dark'))
+                          ? ThemeButton(
+                              iconSvg: MyIcon.LIGHT.value, themeMode: 'light')
+                          : ThemeButton(
+                              iconSvg: MyIcon.DARK.value, themeMode: 'dark'))
                 ],
               )),
               const SizedBox(
                 height: 40,
               )
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => ResultPage(
-              //           parameters: loadState.test
-              //               .copyWith(
-              //                   answers: answersheet,
-              //                   duration: testDurationState.duration)
-              //               .toMap(),
-              //         )));
-              // context.read<TestDurationBloc>().close();
-              // },
             ],
           ),
         ));
@@ -141,10 +145,9 @@ class Timerbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SvgPicture.asset(
-          'assets/images/clock.svg',
+          MyIcon.CLOCK.value,
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
         const SizedBox(width: 8),

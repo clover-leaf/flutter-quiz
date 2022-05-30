@@ -11,18 +11,4 @@ A new Flutter project.
 - [x] Add theme icon in drawer of room screen
 - [ ] Add confirm when exit or submit of room screen
 - [x] Add loading room page
-- [ ] Redesign option page
-
-
-difficult -> enum
-type -> enum
-
-categori => class
-
-
-option
-Load state: List<category>
-Util state: category list + index / type list + index / difficulty list + index 
-
-LOAD CATEGORY
-=>
+- [x] Redesign option page

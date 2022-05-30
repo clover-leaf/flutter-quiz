@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, no_leading_underscores_for_local_identifiers
 import 'dart:convert';
 
 class TestDuration {
@@ -22,11 +22,15 @@ class TestDuration {
     return hour == 0 ? '$minute:$second' : '$hour:$minute:$second';
   }
 
-  String toStylishString() {
-    String minute = (remain / 60).floor().toString().padLeft(2, '0');
-    String second = (remain % 60).toString().padLeft(2, '0');
-    return '$minute min $second sec';
+  static String toStylishString(int second) {
+    String _minute = (second / 60).floor().toString().padLeft(2, '0');
+    String _second = (second % 60).toString().padLeft(2, '0');
+    return '$_minute min $_second sec';
   }
+
+  String getStylishTotal() => toStylishString(total);
+  String getStylishRemain() => toStylishString(remain);
+  String getStylishUsed() => toStylishString(total - remain);
 
   String get getUsedTime => toStr(total - remain);
 

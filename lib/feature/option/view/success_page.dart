@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:chicken/common/common.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chicken/feature/option/option.dart';
@@ -23,28 +24,28 @@ class LoadSuccessPage extends StatelessWidget {
                       .textTheme
                       .headline1!
                       .copyWith(fontSize: 24)),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               const DifficultyOption(),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               const CategoryOption(),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               const TypeOption(),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               const AmountOption(),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               const DurationOption(),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: Constant.PADDING.value,
               ),
               GestureDetector(
                   onTap: () {

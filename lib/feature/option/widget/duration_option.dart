@@ -23,7 +23,7 @@ class DurationOption extends StatelessWidget {
                   previous != current,
               builder: (context, state) {
                 return Text(
-                  state.duration.toStylishString(),
+                  state.duration.getStylishTotal(),
                   style: Theme.of(context).textTheme.headline1,
                 );
               },
