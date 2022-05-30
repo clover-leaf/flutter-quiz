@@ -184,43 +184,5 @@ class Timerbox extends StatelessWidget {
         )
       ],
     );
-
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/images/clock.svg',
-            height: 20,
-            width: 20,
-            color: Theme.of(context).scaffoldBackgroundColor,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        BlocBuilder<TimerBloc, TimerState>(
-          buildWhen: (previous, current) =>
-              previous.runtimeType != current.runtimeType,
-          builder: (context, state) {
-            String time;
-            if (state is TimerInitial) {
-              time = '00:00:00';
-            } else if (state is TimerRun) {
-              time = state.duration!.getRemainTime();
-            } else if (state is TimerComplete) {
-              time = '00:00:00';
-            } else {
-              time = '00:00:00';
-            }
-            return Text(
-              time,
-              style: Theme.of(context).textTheme.headline2!.copyWith(height: 1),
-            );
-          },
-        ),
-      ],
-    );
   }
 }

@@ -28,12 +28,13 @@ class Quizbox extends StatelessWidget {
             children: [
               Text(quiz.question, style: Theme.of(context).textTheme.headline1),
               const SizedBox(
-                height: 16,
+                height: 8,
               ),
               ...List.generate(quiz.answers.length, (ansIndex) {
                 final answer = quiz.answers[ansIndex];
                 return AnswerBox(answer: answer, quizIndex: quizIndex);
-              })
+              }),
+              const SizedBox(height: 8,)
             ],
           ))
         ],

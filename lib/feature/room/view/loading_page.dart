@@ -1,9 +1,5 @@
-
-import 'dart:math';
-
 import 'package:chicken/common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoadingPage extends StatelessWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -11,69 +7,88 @@ class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
-            child: Center(
-      child: Container(
-        height: 64,
-        width: 64,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            border:
-                Border.all(color: Color(Palette.sapphire.color), width: 1.8),
-                color: Colors.white
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 16,
+                ),
+                ...List.generate(4, (_) {
+                  return const QuizPlaceholder();
+                })
+              ],
             ),
-        child: const LoadingIcon()
-      ),
-    )));
+          ),
+        ));
   }
 }
 
-class LoadingIcon extends StatefulWidget {
-  const LoadingIcon({Key? key}) : super(key: key);
-
-  @override
-  State<LoadingIcon> createState() => _LoadingIconState();
-}
-
-class _LoadingIconState extends State<LoadingIcon>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> animation;
-
-  @override
-  void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    animation = Tween<double>(begin: 0, end: 360).animate(_controller);
-    _controller.repeat();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class AnswerPlaceholder extends StatelessWidget {
+  const AnswerPlaceholder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: animation,
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: SvgPicture.asset(
-            'assets/images/undo.svg',
-            color: Color(Palette.sapphire.color),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: const [
+          Placeholder(
             height: 32,
             width: 32,
           ),
-        ),
-        builder: (context, child) {
-          return Transform.rotate(
-            angle:  - animation.value * pi / 180,
-            child: child,
-          );
-        });
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(child: Placeholder(height: 32)),
+        ],
+      ),
+    );
+  }
+}
+
+class QuizPlaceholder extends StatelessWidget {
+  const QuizPlaceholder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(56, 0, 32, 24),
+      child: Column(
+        children: [
+          const Placeholder(height: 48),
+          const SizedBox(
+            height: 16,
+          ),
+          ...List.generate(4, (_) => const AnswerPlaceholder()),
+          const SizedBox(
+            height: 8,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class Placeholder extends StatelessWidget {
+  const Placeholder(
+      {Key? key, required this.height, this.width = double.infinity})
+      : super(key: key);
+
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+          borderRadius:
+              BorderRadius.all(Radius.circular(Constant.BORDER_RADIUS.value)),
+          color: Theme.of(context).primaryColor.withAlpha(66)),
+    );
   }
 }
