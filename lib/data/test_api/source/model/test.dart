@@ -42,9 +42,9 @@ class Test {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'difficulty': difficulty.label,
-      'type': type.label,
-      'category': category.label,
+      'difficulty': difficulty.toMap(),
+      'type': type.toMap(),
+      'category': category.toMap(),
       'duration': duration.toMap(),
       'answers': answers.map((x) => x.toMap()).toList(),
       'quizzes': quizzes.map((x) => x.toMap()).toList(),
@@ -53,9 +53,9 @@ class Test {
 
   factory Test.fromMap(Map<String, dynamic> map) {
     return Test(
-      difficulty: TestDifficulty(label: map['difficulty']),
-      type: TestType(label: map['type']),
-      category: TestCategory(label: map['category']),
+      difficulty: TestDifficulty.fromMap(map['difficulty']),
+      type: TestType.fromMap(map['type']),
+      category: TestCategory.fromMap(map['category']),
       duration: TestDuration.fromMap(map['duration'] as Map<String,dynamic>),
       answers: List<Answer>.from((map['answers'] as List<dynamic>).map<Answer>((x) => Answer.fromMap(x as Map<String,dynamic>),),),
       quizzes: List<Quiz>.from((map['quizzes'] as List<dynamic>).map<Quiz>((x) => Quiz.fromMap(x as Map<String,dynamic>),),),

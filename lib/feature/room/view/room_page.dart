@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chicken/domain/test_repository/test_repository.dart'
     show TestRepository;
 import 'package:chicken/feature/room/room.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class RoomPage extends StatelessWidget {
   const RoomPage({Key? key, required this.parameters}) : super(key: key);
 
-  final Map<String, String> parameters;
+  final Map<String, Map<String, dynamic>> parameters;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +26,12 @@ class RoomPage extends StatelessWidget {
             );
           }
         },
-        buildWhen: (previous, current) {
-          return current is! RepositoryLoading &&
-              previous.runtimeType != current.runtimeType;
-        },
         builder: (context, state) {
           if (state is RepositoryLoading || state is RepositoryInitial) {
             return const LoadingPage();
           }
           if (state is RepositoryLoaded) {
             final double deviceHeight = MediaQuery.of(context).size.height;
-            final ItemScrollController itemScrollController = ItemScrollController();
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
@@ -55,7 +49,7 @@ class RoomPage extends StatelessWidget {
                     create: (context) =>
                         TimerBloc()..add(TimerStart(state.test.duration))),
               ],
-              child: TestPage(scrollController: itemScrollController,),
+              child: TestPage(),
             );
           }
           if (state is RepositoryError) {

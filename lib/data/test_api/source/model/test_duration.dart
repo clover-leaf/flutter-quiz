@@ -2,14 +2,17 @@
 import 'dart:convert';
 
 class TestDuration {
-
   final int total;
   final int remain;
-  
+
   const TestDuration({
     required this.total,
     required this.remain,
   });
+
+  static TestDuration fromSecond(int second) {
+    return TestDuration(total: second, remain: second);
+  }
 
   String toStr(int totalInSecond) {
     int hour = (totalInSecond / 3600).floor();
@@ -19,12 +22,16 @@ class TestDuration {
     return hour == 0 ? '$minute:$second' : '$hour:$minute:$second';
   }
 
-  String get getUsedTime => toStr(total -remain);
+  String toStylishString() {
+    String minute = (remain / 60).floor().toString().padLeft(2, '0');
+    String second = (remain % 60).toString().padLeft(2, '0');
+    return '$minute min $second sec';
+  }
 
+  String get getUsedTime => toStr(total - remain);
 
   String getTotalTime() => toStr(total);
   String getRemainTime() => toStr(remain);
-
 
   TestDuration copyWith({
     int? total,
@@ -52,7 +59,8 @@ class TestDuration {
 
   String toJson() => json.encode(toMap());
 
-  factory TestDuration.fromJson(String source) => TestDuration.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TestDuration.fromJson(String source) =>
+      TestDuration.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'TestDuration(total: $total, remain: $remain)';
@@ -60,10 +68,10 @@ class TestDuration {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is TestDuration &&
-      other.total == total &&
-      other.remain == remain;
+        other.total == total &&
+        other.remain == remain;
   }
 
   @override

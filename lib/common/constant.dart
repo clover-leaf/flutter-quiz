@@ -2,6 +2,14 @@
 // ignore_for_file: constant_identifier_names
 
 enum Constant {
+
+  OPTION_BOX_SIZE(64),
+  OPTION_BOX_PADDING(8),
+  OPTION_ROW_COUNT(3),
+  OPTION_BOX_WIDTH(160),
+  OPTION_BOX_HEIGHT(56),
+  OPTION_FILL_TRANS_DURATION(300),
+
   BORDER_RADIUS(8),
   BORDER_WIDTH(1.6),
 

@@ -1,42 +1,63 @@
+import 'dart:convert';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class TestCategory {
 
-  const TestCategory({
-    required this.label,
+  final int id;
+  final String name;
+  final String? iconPath;
+  TestCategory({
+    required this.id,
+    required this.name,
+    this.iconPath,
   });
 
-  final String label;
-
-  static const Map<String, String> decodeMap = {
-    'History': '23',
-    'Sport': '21',
-    'Art': '25',
-    'Geography': '22',
-    'Mathematic': '19',
-    'Computer': '18',
-    'Manga': '31',
-    'Any': '0',
-  };
-
-  static String getValue(String label) {
-    if (decodeMap.containsKey(label)) {
-      return decodeMap[label]!;
-    }
-    throw Exception('Cant find value');
+  TestCategory copyWith({
+    int? id,
+    String? name,
+    String? iconPath,
+  }) {
+    return TestCategory(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      iconPath: iconPath ?? this.iconPath,
+    );
   }
-  
-  static List<String> getAll() {
-    return decodeMap.keys.toList();
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'iconPath': iconPath,
+    };
   }
+
+  factory TestCategory.fromMap(Map<String, dynamic> map) {
+    return TestCategory(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      iconPath: map['iconPath'] != null ? map['iconPath'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory TestCategory.fromJson(String source) => TestCategory.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'TestCategory(id: $id, name: $name, iconPath: $iconPath)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
-    return other is TestCategory && other.label == label;
+  
+    return other is TestCategory &&
+      other.id == id &&
+      other.name == name &&
+      other.iconPath == iconPath;
   }
 
   @override
-  int get hashCode => label.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode ^ iconPath.hashCode;
 }

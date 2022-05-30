@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key, required ItemScrollController scrollController})
-      : _scrollController = scrollController,
-        super(key: key);
-  final ItemScrollController _scrollController;
+  TestPage({Key? key}) : super(key: key);
+  
+  final ItemScrollController scrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class TestPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: RepaintBoundary(
                   child: ScrollablePositionedList.separated(
-                    itemScrollController: _scrollController,
+                    itemScrollController: scrollController,
                     itemCount: (context.read<RepositoryBloc>().state
                             as RepositoryLoaded)
                         .test
@@ -82,7 +81,7 @@ class TestPage extends StatelessWidget {
                     } else {
                       context
                           .read<UtilBloc>()
-                          .add(CloseTabEnd(controller: _scrollController));
+                          .add(CloseTabEnd(controller: scrollController));
                     }
                   },
                   right: state.offsetDx - Constant.SIDETAB_WIDTH.value,

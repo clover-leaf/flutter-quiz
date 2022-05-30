@@ -26,29 +26,6 @@ class LoadingPage extends StatelessWidget {
   }
 }
 
-class AnswerPlaceholder extends StatelessWidget {
-  const AnswerPlaceholder({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        children: const [
-          Placeholder(
-            height: 32,
-            width: 32,
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Expanded(child: Placeholder(height: 32)),
-        ],
-      ),
-    );
-  }
-}
-
 class QuizPlaceholder extends StatelessWidget {
   const QuizPlaceholder({Key? key}) : super(key: key);
 
@@ -66,6 +43,29 @@ class QuizPlaceholder extends StatelessWidget {
           const SizedBox(
             height: 8,
           )
+        ],
+      ),
+    );
+  }
+}
+
+class AnswerPlaceholder extends StatelessWidget {
+  const AnswerPlaceholder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: const [
+          Placeholder(
+            height: 32,
+            width: 32,
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(child: Placeholder(height: 32)),
         ],
       ),
     );

@@ -8,7 +8,7 @@ abstract class RepositoryEvent extends Equatable {
 }
 
 class GetTest extends RepositoryEvent {
-  final Map<String, String> parameters;
+  final Map<String, Map<String, dynamic>> parameters;
 
   const GetTest(this.parameters);
 }

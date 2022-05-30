@@ -10,21 +10,53 @@ class RemoteTestApi extends TestApi {
   const RemoteTestApi({required httpClient}) : _httpClient = httpClient;
 
   final http.Client _httpClient;
-  final String _baseURL = 'opentdb.com';
-  final String _basePath = '/api.php';
+  static const String _baseURL = 'opentdb.com';
 
+  // parameters = {
+  //    'category': {
+  //                  'id': 1,
+  //                  'name': 'math',
+  //                },
+  //    'difficulty': {
+  //                  'id': 'medium',
+  //                  'name': 'Medium',
+  //                },
+  //    'type': {
+  //                  'id': '0',
+  //                  'name': 'any',
+  //                },
+  //    'amount': {
+  //                'id': '30'
+  //              },
+  //    'duration': {
+  //                  'remain': 600,
+  //                  'label': 600,
+  //                },
+  // }
   @override
-  Future<Test> getTest(Map<String, String> parameters) async {
-    if (!(parameters.containsKey('amount') &
-        parameters.containsKey('duration'))) {
-      throw Exception('not contain enough parameter to get api');
+  Future<Test> getTest(Map<String, Map<String, dynamic>> parameters) async {
+    final Map<String, String> _parameters = {};
+    print(parameters);
+    try {
+      if (parameters['category']!['id']! != 0) {
+        _parameters['category'] = parameters['category']!['id']!.toString();
+      }
+      if (parameters['difficulty']!['id']! != '0') {
+        _parameters['difficulty'] = parameters['difficulty']!['id']!;
+      }
+      if (parameters['type']!['id']! != '0') {
+        _parameters['type'] = parameters['type']!['id']!;
+      }
+      _parameters['amount'] = parameters['amount']!['id']!;
+    } catch (e) {
+      print(e);
     }
-    final int duration = int.parse(parameters['duration']!);
-    // remove duration para because api dont need it
-    parameters.remove('duration');
-    parameters['encode'] = 'url3986';
+
+    // add encode mode
+    _parameters['encode'] = 'url3986';
+    const String path = '/api.php';
     final response =
-        await _httpClient.get(Uri.https(_baseURL, _basePath, parameters));
+        await _httpClient.get(Uri.https(_baseURL, path, _parameters));
 
     if (response.statusCode == 200) {
       final body = json.decode(response.body);
@@ -69,13 +101,30 @@ class RemoteTestApi extends TestApi {
             isCorrect: false));
       }
       final test = Test(
-          difficulty: TestDifficulty(label: parameters['difficulty'] ?? 'Any'),
-          type: TestType(label: parameters['type'] ?? 'Any'),
-          category: TestCategory(label: parameters['category'] ?? 'Any'),
-          duration: TestDuration(total: duration, remain: duration),
+          difficulty: TestDifficulty.fromMap(parameters['difficulty']!),
+          type: TestType.fromMap(parameters['type']!),
+          category: TestCategory.fromMap(parameters['category']!),
+          duration: TestDuration.fromMap(parameters['duration']!),
           answers: answers,
           quizzes: quizzes);
       return test;
+    } else {
+      throw Exception('cant get test');
+    }
+  }
+
+  @override
+  Future<List<TestCategory>> getCategoryList() async {
+    const String path = '/api_category.php';
+    final response = await _httpClient.get(Uri.https(_baseURL, path));
+
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      final List<TestCategory> categoryList =
+          (body['trivia_categories'] as List<dynamic>).map((e) {
+        return TestCategory.fromMap(e);
+      }).toList();
+      return categoryList;
     } else {
       throw Exception('cant get test');
     }
