@@ -36,7 +36,6 @@ class RemoteTestApi extends TestApi {
   @override
   Future<Test> getTest(Map<String, Map<String, dynamic>> parameters) async {
     final Map<String, String> _parameters = {};
-    print(parameters);
     try {
       if (parameters['category']!['id']! != 0) {
         _parameters['category'] = parameters['category']!['id']!.toString();

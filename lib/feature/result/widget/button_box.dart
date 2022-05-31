@@ -22,23 +22,24 @@ class Buttonbox extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(Constant.BORDER_RADIUS.value)),
             color: Theme.of(context).primaryColor),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: SvgPicture.asset(
-                  iconSvg,
-                  height: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
-                  width: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+        child: Center(
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: SvgPicture.asset(
+                    iconSvg,
+                    height: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
+                    width: Constant.SIDETAB_BUTTON_HEIGHT.value / 2,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
                 ),
               ),
-            ),
-            Text(label, style: Theme.of(context).textTheme.headline2),
-          ],
+              Text(label, style: Theme.of(context).textTheme.headline2),
+            ],
+          ),
         ));
   }
 }

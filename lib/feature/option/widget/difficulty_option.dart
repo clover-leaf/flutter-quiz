@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chicken/data/test_api/test_api.dart' show TestDifficulty;
 import 'package:chicken/common/common.dart';
 import 'package:chicken/feature/option/option.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DifficultyOption extends StatelessWidget {
   const DifficultyOption({Key? key}) : super(key: key);
@@ -32,31 +33,24 @@ class DifficultyOption extends StatelessWidget {
             )
           ],
         ),
-        const SizedBox(
-          height: 16,
+        SizedBox(
+          height: Constant.PADDING.value,
         ),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
                 children: List.generate(
-                    2 * context.read<UtilBloc>().state.difficultyList.length -
-                        1,
-                    (index) => index.isEven
-                        ? GestureDetector(
-                            onTap: () => context
-                                .read<UtilBloc>()
-                                .add(ChangeDifficulty(index ~/ 2)),
-                            child: DifficultBox(
-                              difficulty: context
-                                  .read<UtilBloc>()
-                                  .state
-                                  .difficultyList[index ~/ 2],
-                              index: index ~/ 2,
-                            ),
-                          )
-                        : const SizedBox(
-                            width: 8,
-                          ))))
+              2 * context.read<UtilBloc>().state.difficultyList.length - 1,
+              (index) => index.isEven
+                  ? DifficultBox(
+                      difficulty: context
+                          .read<UtilBloc>()
+                          .state
+                          .difficultyList[index ~/ 2],
+                      index: index ~/ 2,
+                    )
+                  : SizedBox(width: Constant.OPTION_BOX_PADDING.value / 2),
+            )))
       ],
     );
   }
@@ -74,71 +68,53 @@ class DifficultBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: Constant.OPTION_BOX_HEIGHT.value,
-      width: Constant.OPTION_BOX_WIDTH.value,
-      child: Stack(alignment: Alignment.bottomCenter, children: [
-        BlocBuilder<UtilBloc, UtilState>(
-          buildWhen: (previous, current) {
-            final prevIdx = previous.difficultyIndex;
-            final curIdx = current.difficultyIndex;
-            return (prevIdx != curIdx) && (index == prevIdx || index == curIdx);
-          },
-          builder: (context, state) {
-            final isActive = index == state.difficultyIndex;
-            final double animatedHeight =
-                isActive ? Constant.OPTION_BOX_HEIGHT.value - 4 : 0;
-            return AnimatedContainer(
-              curve: Curves.easeOutCubic,
-              height: animatedHeight,
-              width: Constant.OPTION_BOX_WIDTH.value +
-                  2 *
-                      animatedHeight *
-                      Constant.BORDER_RADIUS.value /
-                      (Constant.OPTION_BOX_HEIGHT.value - 4),
-              duration: Duration(
-                  milliseconds:
-                      Constant.OPTION_FILL_TRANS_DURATION.value.toInt()),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(Constant.BORDER_RADIUS.value)),
-                  color: Theme.of(context).primaryColor),
-            );
-          },
-        ),
-        BlocBuilder<UtilBloc, UtilState>(
-          buildWhen: (previous, current) {
-            final prevIdx = previous.difficultyIndex;
-            final curIdx = current.difficultyIndex;
-            return (prevIdx != curIdx) && (index == prevIdx || index == curIdx);
-          },
-          builder: (context, state) {
-            final isActive = index == state.difficultyIndex;
-            return Center(
-                child: AnimatedDefaultTextStyle(
-              curve: Curves.easeOutCubic,
-              duration: Duration(
-                  milliseconds:
-                      Constant.OPTION_FILL_TRANS_DURATION.value.toInt()),
-              style: Theme.of(context).textTheme.headline1!.copyWith(
-                    color: isActive
-                        ? Theme.of(context).scaffoldBackgroundColor
-                        : Theme.of(context).primaryColor,
-                  ),
-              child: Text(difficulty.name),
-            ));
-          },
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.all(Radius.circular(Constant.BORDER_RADIUS.value)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: Constant.BORDER_WIDTH.value),
+    return GestureDetector(
+      onTap: () => context.read<UtilBloc>().add(ChangeDifficulty(index)),
+      child: SizedBox(
+        height: Constant.OPTION_BOX_HEIGHT.value,
+        width: Constant.OPTION_BOX_WIDTH.value,
+        child: Column(children: [
+          BlocBuilder<UtilBloc, UtilState>(
+            buildWhen: (previous, current) {
+              final prevIdx = previous.difficultyIndex;
+              final curIdx = current.difficultyIndex;
+              return (prevIdx != curIdx) &&
+                  (index == prevIdx || index == curIdx);
+            },
+            builder: (context, state) {
+              final isActive = index == state.difficultyIndex;
+              return Container(
+                  height: Constant.OPTION_BOX_DIAMETER.value,
+                  width: Constant.OPTION_BOX_DIAMETER.value,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(
+                          Constant.OPTION_BOX_DIAMETER.value / 2)),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          width: Constant.BORDER_WIDTH.value),
+                      color: isActive
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).scaffoldBackgroundColor),
+                  child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SvgPicture.asset(difficulty.iconPath!,
+                          height: Constant.OPTION_ICON_SIZE.value,
+                          width: Constant.OPTION_ICON_SIZE.value,
+                          color: isActive
+                              ? Theme.of(context).scaffoldBackgroundColor
+                              : Theme.of(context).primaryColor)));
+            },
           ),
-        ),
-      ]),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            difficulty.name,
+            style: Theme.of(context).textTheme.headline1,
+            textAlign: TextAlign.center,
+          ),
+        ]),
+      ),
     );
   }
 }

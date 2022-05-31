@@ -9,8 +9,8 @@ class StartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Constant.OPTION_BOX_HEIGHT.value,
-      width: Constant.OPTION_BOX_WIDTH.value - 24,
+      height: Constant.RESULT_BUTTON_HEGHT.value,
+      width: 120,
       decoration: BoxDecoration(
         borderRadius:
             BorderRadius.all(Radius.circular(Constant.BORDER_RADIUS.value)),
