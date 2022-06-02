@@ -20,7 +20,7 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
             difficultyIndex: 0,
             typeIndex: 0,
             duration: TestDuration.fromSecond(600),
-            amount: 30)) {
+            amount: 10)) {
     on<ChangeCategory>(_onChangeCategory);
     on<ChangeDifficulty>(_onChangeDifficulty);
     on<ChangeType>(_onChangeType);

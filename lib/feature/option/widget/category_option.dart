@@ -41,24 +41,19 @@ class CategoryOption extends StatelessWidget {
         SizedBox(
           height: Constant.OPTION_BOX_HEIGHT.value * rows +
               Constant.OPTION_BOX_PADDING.value * (rows - 1),
-          child: ListView.separated(
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: len.remainder(rows) == 0 ? len ~/ rows : len ~/ rows + 1,
-            separatorBuilder: (context, index) =>
-                SizedBox(width: Constant.OPTION_BOX_PADDING.value),
             itemBuilder: (context, colIndex) {
               return Column(
                 children: List.generate(
-                  2 * rows - 1,
-                  (rowIndex) => rowIndex.isOdd ||
-                          colIndex * rows + rowIndex ~/ 2 >= len
-                      ? const SizedBox(
-                          height: 8,
-                        )
+                  rows,
+                  (rowIndex) => colIndex * rows + rowIndex >= len
+                      ? const SizedBox()
                       : CategoryBox(
                           category: context.read<UtilBloc>().state.categoryList[
-                              (colIndex * rows + rowIndex ~/ 2).toInt()],
-                          index: (colIndex * rows + rowIndex ~/ 2).toInt(),
+                              (colIndex * rows + rowIndex).toInt()],
+                          index: (colIndex * rows + rowIndex).toInt(),
                         ),
                 ),
               );

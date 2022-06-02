@@ -16,7 +16,7 @@ class LoadSuccessPage extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(32, 32, 32, 64),
+          padding: const EdgeInsets.fromLTRB(16, 32, 16, 64),
           child:  Column(
               children: [
                 Text('Do quiz',
@@ -48,6 +48,7 @@ class LoadSuccessPage extends StatelessWidget {
                 GestureDetector(
                     onTap: () {
                       UtilState _state = context.read<UtilBloc>().state;
+                      context.read<UtilBloc>().close();
                       Map<String, Map<String, dynamic>> _parameters = {
                         'category': _state.categoryList[_state.categoryIndex].toMap(),
                         'difficulty': _state.difficultyList[_state.difficultyIndex].toMap(),

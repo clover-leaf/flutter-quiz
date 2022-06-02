@@ -7,6 +7,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   RemoteTestApi testApi = RemoteTestApi(httpClient: http.Client());
+  // LocalTestApi testApi = const LocalTestApi();
 
   bootstrap(testApi: testApi);
 }

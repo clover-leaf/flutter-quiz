@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+
 import 'package:chicken/common/common.dart';
 import 'package:chicken/data/test_api/test_api.dart';
 
@@ -41,6 +42,7 @@ class TestRepository {
       _testApi.getTest(parameters);
 
   Future<List<TestCategory>> getCategoryList() async {
+
     List<TestCategory> result = await _testApi.getCategoryList();
     result.insert(0, TestCategory(id: 0, name: 'Any'));
     List<TestCategory> filter = result
@@ -62,17 +64,21 @@ class TestRepository {
 
   List<TestDifficulty> getDifficultyList() => [
         TestDifficulty(id: '0', name: 'Any', iconPath: MyIcon.ANY.value),
-        TestDifficulty(
-            id: 'easy', name: 'Easy', iconPath: MyIcon.EASY.value),
+        TestDifficulty(id: 'easy', name: 'Easy', iconPath: MyIcon.EASY.value),
         TestDifficulty(
             id: 'medium', name: 'Medium', iconPath: MyIcon.MEDIUM.value),
-        TestDifficulty(
-            id: 'hard', name: 'Hard', iconPath: MyIcon.HARD.value),
+        TestDifficulty(id: 'hard', name: 'Hard', iconPath: MyIcon.HARD.value),
       ];
 
   List<TestType> getTypeList() => [
         TestType(id: '0', name: 'Any', iconPath: MyIcon.ANY.value),
-        TestType(id: 'boolean', name: 'True / False', iconPath: MyIcon.TRUEFALSE.value),
-        TestType(id: 'multiple', name: 'Multiple Choice', iconPath: MyIcon.MULTIPLE.value),
+        TestType(
+            id: 'boolean',
+            name: 'True / False',
+            iconPath: MyIcon.TRUEFALSE.value),
+        TestType(
+            id: 'multiple',
+            name: 'Multiple Choice',
+            iconPath: MyIcon.MULTIPLE.value),
       ];
 }

@@ -41,14 +41,11 @@ class TypeOption extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
               children: List.generate(
-            2 * len - 1,
-            (index) => index.isEven
-                ? TypeBox(
-                    type: context.read<UtilBloc>().state.typeList[index ~/ 2],
-                    index: index ~/ 2,
-                  )
-                : SizedBox(width: Constant.OPTION_BOX_PADDING.value / 2),
-          )),
+                  len,
+                  (index) => TypeBox(
+                        type: context.read<UtilBloc>().state.typeList[index],
+                        index: index,
+                      ))),
         )
       ],
     );

@@ -40,17 +40,14 @@ class DifficultyOption extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
                 children: List.generate(
-              2 * context.read<UtilBloc>().state.difficultyList.length - 1,
-              (index) => index.isEven
-                  ? DifficultBox(
-                      difficulty: context
-                          .read<UtilBloc>()
-                          .state
-                          .difficultyList[index ~/ 2],
-                      index: index ~/ 2,
-                    )
-                  : SizedBox(width: Constant.OPTION_BOX_PADDING.value / 2),
-            )))
+                    context.read<UtilBloc>().state.difficultyList.length,
+                    (index) => DifficultBox(
+                          difficulty: context
+                              .read<UtilBloc>()
+                              .state
+                              .difficultyList[index],
+                          index: index,
+                        ))))
       ],
     );
   }
