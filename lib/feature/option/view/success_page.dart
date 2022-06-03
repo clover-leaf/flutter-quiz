@@ -48,7 +48,6 @@ class LoadSuccessPage extends StatelessWidget {
                 GestureDetector(
                     onTap: () {
                       UtilState _state = context.read<UtilBloc>().state;
-                      context.read<UtilBloc>().close();
                       Map<String, Map<String, dynamic>> _parameters = {
                         'category': _state.categoryList[_state.categoryIndex].toMap(),
                         'difficulty': _state.difficultyList[_state.difficultyIndex].toMap(),

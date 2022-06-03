@@ -1,15 +1,15 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:chicken/common/common.dart';
 import 'package:flutter/material.dart';
 
 class Leaf extends CustomPainter {
-  final double R;
   final double degree;
-  final double sqrt2 = sqrt(2);
   final Color color;
+  final Color bgColor;
 
-  Leaf({required this.R, required this.degree, required this.color});
+  Leaf({required this.degree, required this.color, required this.bgColor});
   @override
   void paint(canvas, size) {
     final painter = Paint()
@@ -18,6 +18,7 @@ class Leaf extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final double toRadian = degree * pi / 180;
+    final double R = Constant.SPLASH_CLOVER_R.value;
 
     const Offset O = Offset(0, 0);
     final Offset A = Offset(-R * sqrt2, -R * sqrt2);
@@ -51,6 +52,12 @@ class Leaf extends CustomPainter {
     ]));
     final move = rotate.shift(Offset(size.width / 2, size.height / 2));
     canvas.drawPath(move, painter);
+    canvas.drawPath(
+        move,
+        painter
+          ..color = bgColor
+          ..strokeWidth = Constant.SPLASH_CLOVER_SPACE.value
+          ..style = PaintingStyle.stroke);
   }
 
   @override

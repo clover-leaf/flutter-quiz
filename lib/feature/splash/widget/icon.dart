@@ -1,48 +1,37 @@
 import 'dart:math';
 
+import 'package:chicken/common/common.dart';
 import 'package:chicken/feature/splash/cubit/icon_cubit.dart';
 import 'package:chicken/feature/splash/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Icon extends StatefulWidget {
-  const Icon(
+class Clover extends StatefulWidget {
+  const Clover(
       {Key? key,
-      required this.height,
-      required this.width,
-      required this.space,
-      required this.R,
-      required this.begin,
-      required this.end,
+      required this.startDegree,
       required this.color,
       required this.index,
-      required this.duration,
-      required this.delay})
+      required this.bgColor})
       : super(key: key);
-  final double height;
-  final double width;
-  final double space;
-  final double R;
-  final double begin;
-  final double end;
+  final double startDegree;
   final int index;
-  final int duration;
-  final int delay;
   final Color color;
+  final Color bgColor;
 
   @override
-  State<Icon> createState() => _IconState();
+  State<Clover> createState() => _CloverState();
 }
 
-class _IconState extends State<Icon> with SingleTickerProviderStateMixin {
+class _CloverState extends State<Clover> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: widget.duration));
-    _animation = Tween<double>(begin: widget.begin, end: widget.end)
+        vsync: this, duration: Duration(milliseconds: Constant.SPLASH_CLOVER_DURATION.value.toInt()));
+    _animation = Tween<double>(begin: widget.startDegree, end: widget.startDegree + Constant.SPALSH_CLOVER_ARC.value)
         .chain(CurveTween(curve: Curves.easeInSine))
         .animate(_controller);
     super.initState();
@@ -56,12 +45,16 @@ class _IconState extends State<Icon> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final double height =
+        Constant.SPLASH_CLOVER_R.value * (2 * sqrt2 + 1 - 1 / sqrt2);
+    final double width = Constant.SPLASH_CLOVER_R.value * (2 + sqrt2);
+    
     return BlocListener<IconCubit, int>(
       listener: (context, state) {
         if (state == widget.index) {
           _controller.forward().whenComplete(() => Future.delayed(
               Duration(
-                milliseconds: widget.delay,
+                milliseconds: Constant.SPLASH_CLOVER_WAIT.value.toInt(),
               ),
               () => context.read<IconCubit>().increase()));
         }
@@ -71,19 +64,20 @@ class _IconState extends State<Icon> with SingleTickerProviderStateMixin {
         builder: (context, child) {
           return context.read<IconCubit>().state == widget.index
               ? Positioned(
-                  right: (widget.width + widget.space) / 2 -
-                      (widget.width + widget.space) /
+                  right: width / 2 -
+                      width /
                           2 *
                           sin(_animation.value * pi / 180),
-                  top: (widget.height + widget.space) /
+                  top: height/
                       2 *
                       (1 - cos(_animation.value * pi / 180)),
                   child: CustomPaint(
-                    size: Size(widget.width, widget.height),
+                    size: Size(width, height),
                     painter: Leaf(
-                        R: widget.R,
                         degree: _animation.value,
-                        color: widget.color),
+                        color: widget.color,
+                        bgColor: widget.bgColor
+                        ),
                   ),
                 )
               : const SizedBox();

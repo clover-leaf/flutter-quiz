@@ -75,9 +75,18 @@ class Sidetab extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Buttonbox(
-                iconSvg: MyIcon.LOGOUT.value,
-                label: 'Exit',
+              GestureDetector(
+                onTap: () async {
+                  final bool value = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => const ConfirmDialog()) ??
+                      true;
+                  if (value) Navigator.of(context).pop();
+                },
+                child: Buttonbox(
+                  iconSvg: MyIcon.LOGOUT.value,
+                  label: 'Exit',
+                ),
               ),
               Expanded(
                   child: Column(

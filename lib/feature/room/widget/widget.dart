@@ -5,3 +5,4 @@ export 'firebox.dart';
 export 'buttonbox.dart';
 export 'sidebutton.dart';
 export 'sidetab.dart';
+export 'confirm_dialog.dart';

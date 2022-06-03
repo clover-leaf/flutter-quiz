@@ -1,7 +1,7 @@
 import 'package:chicken/app/cubit/theme_cubit.dart';
 import 'package:chicken/common/common.dart';
 import 'package:chicken/domain/test_repository/test_repository.dart';
-import 'package:chicken/feature/option/option.dart';
+import 'package:chicken/feature/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,12 +26,12 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, bool>(
-        builder: (context, isDark) {
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
           return MaterialApp(
-                theme: isDark ? AppTheme.dark : AppTheme.light,
+                theme: state.isDark ? AppTheme.dark : AppTheme.light,
                 debugShowCheckedModeBanner: false,
-                home: const OptionPage()
+                home: const SplashPage()
               );
         },
       ),
