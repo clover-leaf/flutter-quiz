@@ -21,11 +21,11 @@ A new Flutter project.
 - [ ] Refactor project !add FEATURE / DOMAIN / DATA layer !one bloc 
 
 ### ver 0.2.0
-- [ ] Migrate result screen
+- [x] Migrate result screen
 - [ ] Migrate review screen
-- [ ] Add home screen
+- [ ] ~Add home screen~
 - [x] Add dark / light theme
 - [x] Add theme icon in drawer of room screen
-- [ ] Add confirm when exit or submit of room screen
+- [x] Add confirm when exit or submit of room screen
 - [x] Add loading room page
 - [x] Redesign option page
