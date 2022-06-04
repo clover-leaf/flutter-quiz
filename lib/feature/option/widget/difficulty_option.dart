@@ -38,6 +38,7 @@ class DifficultyOption extends StatelessWidget {
         ),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
             child: Row(
                 children: List.generate(
                     context.read<UtilBloc>().state.difficultyList.length,

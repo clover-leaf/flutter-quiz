@@ -31,7 +31,7 @@ class _ScaleLeafState extends State<ScaleLeaf>
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
-            milliseconds: Constant.SPLASH_CLOVER_DURATION.value.toInt()));
+            milliseconds: 2 * Constant.SPLASH_CLOVER_DURATION.value.toInt()));
     _animation = Tween<double>(begin: 0, end: Constant.SPLASH_CLOVER_R.value)
         .chain(CurveTween(curve: Curves.easeOutCubic))
         .animate(_controller);

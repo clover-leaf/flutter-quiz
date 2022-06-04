@@ -3,8 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:chicken/common/common.dart';
 
-class StartButton extends StatelessWidget {
-  const StartButton({Key? key}) : super(key: key);
+class Button extends StatelessWidget {
+  const Button({Key? key, required this.label, required this.iconUrl})
+      : super(key: key);
+  final String label;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +23,13 @@ class StartButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            MyIcon.START.value,
+            iconUrl,
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
-          const SizedBox(width: 8,),
-          Text('Start', style: Theme.of(context).textTheme.headline2),
+          const SizedBox(
+            width: 8,
+          ),
+          Text(label, style: Theme.of(context).textTheme.headline2),
         ],
       ),
     );

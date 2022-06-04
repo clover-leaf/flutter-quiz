@@ -44,7 +44,7 @@ class SplashView extends StatelessWidget {
         BlocListener<ThemeCubit, ThemeState>(
           listener: (context, state) {
             if (state is ThemeLoaded) {
-              Future.delayed(const Duration(microseconds: 700),
+              Future.delayed(const Duration(microseconds: 1000),
                   () => context.read<IconCubit>().increase());
             }
           },

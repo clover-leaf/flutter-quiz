@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 enum MyIcon {
+  NEXT('assets/images/next.svg'),
   START('assets/images/start.svg'),
   ERROR('assets/images/microscope.svg'),
   LIGHT('assets/images/light.svg'),
