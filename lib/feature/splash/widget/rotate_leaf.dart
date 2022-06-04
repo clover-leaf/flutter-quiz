@@ -6,8 +6,8 @@ import 'package:chicken/feature/splash/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Clover extends StatefulWidget {
-  const Clover(
+class RotateLeaf extends StatefulWidget {
+  const RotateLeaf(
       {Key? key,
       required this.startDegree,
       required this.color,
@@ -20,10 +20,10 @@ class Clover extends StatefulWidget {
   final Color bgColor;
 
   @override
-  State<Clover> createState() => _CloverState();
+  State<RotateLeaf> createState() => _RotateLeafState();
 }
 
-class _CloverState extends State<Clover> with SingleTickerProviderStateMixin {
+class _RotateLeafState  extends State<RotateLeaf> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -32,7 +32,7 @@ class _CloverState extends State<Clover> with SingleTickerProviderStateMixin {
     _controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: Constant.SPLASH_CLOVER_DURATION.value.toInt()));
     _animation = Tween<double>(begin: widget.startDegree, end: widget.startDegree + Constant.SPALSH_CLOVER_ARC.value)
-        .chain(CurveTween(curve: Curves.easeInSine))
+        .chain(CurveTween(curve: Curves.easeOutCubic))
         .animate(_controller);
     super.initState();
   }
@@ -74,6 +74,7 @@ class _CloverState extends State<Clover> with SingleTickerProviderStateMixin {
                   child: CustomPaint(
                     size: Size(width, height),
                     painter: Leaf(
+                        R: Constant.SPLASH_CLOVER_R.value,
                         degree: _animation.value,
                         color: widget.color,
                         bgColor: widget.bgColor

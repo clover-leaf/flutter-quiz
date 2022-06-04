@@ -10,6 +10,7 @@ class UtilState extends Equatable {
     required this.typeIndex,
     required this.duration,
     required this.amount,
+    required this.seletecTab
   });
 
   final List<TestDifficulty> difficultyList;
@@ -20,6 +21,7 @@ class UtilState extends Equatable {
   final int typeIndex;
   final TestDuration duration;
   final int amount;
+  final int seletecTab;
 
   UtilState copyWith({
     List<TestDifficulty>? difficultyList,
@@ -28,6 +30,7 @@ class UtilState extends Equatable {
     int? difficultyIndex,
     int? categoryIndex,
     int? typeIndex,
+    int? seletecTab,
     TestDuration? duration,
     int? amount,
   }) {
@@ -40,9 +43,10 @@ class UtilState extends Equatable {
       typeIndex: typeIndex ?? this.typeIndex,
       duration: duration ?? this.duration,
       amount: amount ?? this.amount,
+      seletecTab: seletecTab ?? this.seletecTab,
     );
   }
   
   @override
-  List<Object> get props => [difficultyIndex, categoryIndex, typeIndex, duration, amount];
+  List<Object> get props => [difficultyIndex, categoryIndex, typeIndex, duration, amount, seletecTab];
 }

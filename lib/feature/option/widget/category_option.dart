@@ -11,8 +11,7 @@ class CategoryOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int len = context.read<UtilBloc>().state.categoryList.length;
-    final int rows = Constant.OPTION_ROW_COUNT.value.toInt();
+    final int length = context.read<UtilBloc>().state.categoryList.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,25 +38,18 @@ class CategoryOption extends StatelessWidget {
           height: Constant.PADDING.value,
         ),
         SizedBox(
-          height: Constant.OPTION_BOX_HEIGHT.value * rows +
-              Constant.OPTION_BOX_PADDING.value * (rows - 1),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: len.remainder(rows) == 0 ? len ~/ rows : len ~/ rows + 1,
-            itemBuilder: (context, colIndex) {
-              return Column(
-                children: List.generate(
-                  rows,
-                  (rowIndex) => colIndex * rows + rowIndex >= len
-                      ? const SizedBox()
-                      : CategoryBox(
-                          category: context.read<UtilBloc>().state.categoryList[
-                              (colIndex * rows + rowIndex).toInt()],
-                          index: (colIndex * rows + rowIndex).toInt(),
-                        ),
-                ),
-              );
-            },
+          height: Constant.OPTION_BOX_HEIGHT.value *
+              (length / Constant.OPTION_COL_COUNT.value).ceil(),
+          child: GridView.count(
+            childAspectRatio: Constant.OPTION_BOX_WIDTH.value /
+                Constant.OPTION_BOX_HEIGHT.value,
+            crossAxisCount: 4,
+            children: List.generate(
+                length,
+                (index) => CategoryBox(
+                    category:
+                        context.read<UtilBloc>().state.categoryList[index],
+                    index: index)),
           ),
         ),
       ],

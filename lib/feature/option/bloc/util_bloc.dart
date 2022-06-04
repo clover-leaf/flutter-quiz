@@ -19,6 +19,7 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
             categoryIndex: 0,
             difficultyIndex: 0,
             typeIndex: 0,
+            seletecTab: 0,
             duration: TestDuration.fromSecond(600),
             amount: 10)) {
     on<ChangeCategory>(_onChangeCategory);
@@ -26,6 +27,7 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
     on<ChangeType>(_onChangeType);
     on<ChangeAmount>(_onChangeAmount);
     on<ChangeDuration>(_onChangeDuration);
+    on<ChangeTab>(_onChangeTab);
   }
 
   void _onChangeCategory(ChangeCategory event, Emitter<UtilState> emit) {
@@ -44,5 +46,8 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
   }
   void _onChangeAmount(ChangeAmount event, Emitter<UtilState> emit) {
     emit(state.copyWith(amount: event.amount));
+  }
+  void _onChangeTab(ChangeTab event, Emitter<UtilState> emit) {
+    emit(state.copyWith(seletecTab: event.tabIndex));
   }
 }

@@ -25,7 +25,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ThemeCubit(),
+      create: (context) => ThemeCubit()..getPref(),
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp(

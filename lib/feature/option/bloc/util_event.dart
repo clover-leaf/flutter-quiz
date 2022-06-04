@@ -35,6 +35,13 @@ class ChangeAmount extends UtilEvent {
   List<Object> get props => [amount];
 }
 
+class ChangeTab extends UtilEvent {
+  final int tabIndex;
+  const ChangeTab(this.tabIndex);
+  @override
+  List<Object> get props => [tabIndex];
+}
+
 
 
 

@@ -8,8 +8,8 @@ class Leaf extends CustomPainter {
   final double degree;
   final Color color;
   final Color bgColor;
-
-  Leaf({required this.degree, required this.color, required this.bgColor});
+  final double R;
+  Leaf({required this.degree, required this.color, required this.bgColor, required this.R});
   @override
   void paint(canvas, size) {
     final painter = Paint()
@@ -18,7 +18,6 @@ class Leaf extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final double toRadian = degree * pi / 180;
-    final double R = Constant.SPLASH_CLOVER_R.value;
 
     const Offset O = Offset(0, 0);
     final Offset A = Offset(-R * sqrt2, -R * sqrt2);

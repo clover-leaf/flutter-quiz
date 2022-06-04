@@ -51,7 +51,7 @@ class SplashView extends StatelessWidget {
         ),
         BlocListener<IconCubit, int>(
           listener: (context, state) {
-            if (state == 4 &&
+            if (state == Constant.SPALSH_CLOVER_ANIMATION.value &&
                 context.read<RepositoryCubit>().state is RepositorySuccess) {
               final RepositorySuccess repoState =
                   context.read<RepositoryCubit>().state as RepositorySuccess;
@@ -78,7 +78,8 @@ class SplashView extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const ErrorPage()),
                   (route) => false);
             } else if (state is RepositorySuccess &&
-                context.read<IconCubit>().state == 4) {
+                context.read<IconCubit>().state ==
+                    Constant.SPALSH_CLOVER_ANIMATION.value) {
               final Map<String, List<Map<String, dynamic>>> optionList = {
                 'categories': state.categoryList.map((e) => e.toMap()).toList(),
                 'difficulties':
@@ -112,43 +113,29 @@ class SplashView extends StatelessWidget {
                         child: Stack(
                           alignment: AlignmentDirectional.topCenter,
                           children: [
-                            Positioned(
-                              top: 0,
-                              child: CustomPaint(
-                                size: Size(width, height),
-                                painter: Leaf(
-                                    degree: 0,
+                            ScaleLeaf(
+                                color: Theme.of(context).primaryColor,
+                                index: 1,
+                                bgColor:
+                                    Theme.of(context).scaffoldBackgroundColor),
+                            ...List.generate(
+                                3,
+                                (index) => RotateLeaf(
+                                    startDegree: 90.0 * index,
                                     color: Theme.of(context).primaryColor,
+                                    index: index + 2,
                                     bgColor: Theme.of(context)
-                                        .scaffoldBackgroundColor),
-                              ),
-                            ),
-                            Clover(
-                              startDegree: 0,
-                              color: Theme.of(context).primaryColor,
-                              bgColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              index: 1,
-                            ),
-                            Clover(
-                              startDegree: 90,
-                              color: Theme.of(context).primaryColor,
-                              bgColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              index: 2,
-                            ),
-                            Clover(
-                              startDegree: 180,
-                              color: Theme.of(context).primaryColor,
-                              bgColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              index: 3,
-                            ),
+                                        .scaffoldBackgroundColor)),
                           ],
                         ),
                       ),
                     ],
                   ),
+                  AppTitle(
+                    index: 5,
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  const SizedBox(height: 64,)
                 ],
               ),
             ),
