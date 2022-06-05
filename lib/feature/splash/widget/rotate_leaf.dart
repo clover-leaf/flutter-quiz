@@ -1,89 +1,96 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:chicken/common/common.dart';
-import 'package:chicken/feature/splash/cubit/icon_cubit.dart';
-import 'package:chicken/feature/splash/widget/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RotateLeaf extends StatefulWidget {
-  const RotateLeaf(
-      {Key? key,
-      required this.startDegree,
-      required this.color,
-      required this.index,
-      required this.bgColor})
-      : super(key: key);
-  final double startDegree;
-  final int index;
+class RotateLeaf extends CustomPainter {
+  final double degree;
   final Color color;
   final Color bgColor;
-
+  final double R;
+  RotateLeaf(
+      {required this.degree,
+      required this.color,
+      required this.bgColor,
+      required this.R});
   @override
-  State<RotateLeaf> createState() => _RotateLeafState();
-}
+  void paint(canvas, size) {
+    final double scaleRatio = 1 + Constant.SPLASH_CLOVER_SPACE.value * sqrt2 / size.width;
+    final Float64List scaleMatrix = Float64List.fromList([
+      scaleRatio,
+      0,
+      0,
+      0,
+      0,
+      scaleRatio,
+      0,
+      0,
+      0,
+      0,
+      scaleRatio,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]);
 
-class _RotateLeafState  extends State<RotateLeaf> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+    final double toRadian = degree * pi / 180;
+    final Float64List rotateMatrix = Float64List.fromList([
+      cos(toRadian),
+      sin(toRadian),
+      0,
+      0,
+      -sin(toRadian),
+      cos(toRadian),
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]);
 
-  @override
-  void initState() {
-    _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: Constant.SPLASH_CLOVER_DURATION.value.toInt()));
-    _animation = Tween<double>(begin: widget.startDegree, end: widget.startDegree + Constant.SPALSH_CLOVER_ARC.value)
-        .chain(CurveTween(curve: Curves.easeOutCubic))
-        .animate(_controller);
-    super.initState();
+    const Offset O = Offset(0, 0);
+    final Offset A = Offset(-R * sqrt2, -R * sqrt2);
+    final Offset B = Offset(0, -2 * sqrt2 * R);
+    final Offset C = Offset(R * sqrt2, -R * sqrt2);
+
+    final Path path = Path()
+      ..moveTo(O.dx, O.dy)
+      ..lineTo(A.dx, A.dy)
+      ..arcToPoint(B, radius: Radius.circular(R))
+      ..arcToPoint(C, radius: Radius.circular(R))
+      ..lineTo(O.dx, O.dy);
+
+    Path clover = path
+        .shift(Offset(0, R * (2 * sqrt2 + 1 - 1 / sqrt2) / 2))
+        .transform(rotateMatrix);
+
+    final Path whiteOutline = clover
+        .transform(scaleMatrix)
+        .shift(Offset(size.width / 2, size.height / 2));
+
+    clover = clover.shift(Offset(size.width / 2, size.height / 2));
+
+    canvas.drawPath(whiteOutline, Paint()
+      ..color = bgColor
+      ..style = PaintingStyle.fill);
+
+    canvas.drawPath(
+        clover,
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double height =
-        Constant.SPLASH_CLOVER_R.value * (2 * sqrt2 + 1 - 1 / sqrt2);
-    final double width = Constant.SPLASH_CLOVER_R.value * (2 + sqrt2);
-    
-    return BlocListener<IconCubit, int>(
-      listener: (context, state) {
-        if (state == widget.index) {
-          _controller.forward().whenComplete(() => Future.delayed(
-              Duration(
-                milliseconds: Constant.SPLASH_CLOVER_WAIT.value.toInt(),
-              ),
-              () => context.read<IconCubit>().increase()));
-        }
-      },
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return context.read<IconCubit>().state == widget.index
-              ? Positioned(
-                  right: width / 2 -
-                      width /
-                          2 *
-                          sin(_animation.value * pi / 180),
-                  top: height/
-                      2 *
-                      (1 - cos(_animation.value * pi / 180)),
-                  child: CustomPaint(
-                    size: Size(width, height),
-                    painter: Leaf(
-                        R: Constant.SPLASH_CLOVER_R.value,
-                        degree: _animation.value,
-                        color: widget.color,
-                        bgColor: widget.bgColor
-                        ),
-                  ),
-                )
-              : const SizedBox();
-        },
-      ),
-    );
+  bool shouldRepaint(oldDelegate) {
+    return false;
   }
 }

@@ -29,3 +29,8 @@ A new Flutter project.
 - [x] Add confirm when exit or submit of room screen
 - [x] Add loading room page
 - [x] Redesign option page
+- [ ] auto submit when timeout
+- [ ] save last quiz and answer when exit
+- [x] add white outline for each clover leaf
+- [x] add leak clover animation
+- [x] polish clover animation

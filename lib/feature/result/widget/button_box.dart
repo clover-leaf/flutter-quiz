@@ -24,6 +24,7 @@ class Buttonbox extends StatelessWidget {
             color: Theme.of(context).primaryColor),
         child: Center(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),

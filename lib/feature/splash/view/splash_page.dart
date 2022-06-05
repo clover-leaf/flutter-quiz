@@ -20,10 +20,10 @@ class SplashPage extends StatelessWidget {
           create: (context) => IconCubit(),
         ),
         BlocProvider(
-          create: (context) =>
-              RepositoryCubit(testRepository: context.read<TestRepository>())
-                ..getOption(),
-        ),
+            create: (context) =>
+                RepositoryCubit(testRepository: context.read<TestRepository>())
+            ..getOption(),
+            ),
       ],
       child: const SplashView(),
     );
@@ -36,8 +36,10 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double height =
-        Constant.SPLASH_CLOVER_R.value * (2 * sqrt2 + 1 - 1 / sqrt2);
-    final double width = Constant.SPLASH_CLOVER_R.value * (2 + sqrt2);
+        Constant.SPLASH_CLOVER_R.value * (2 * sqrt2 + 1 - 1 / sqrt2) +
+            Constant.SPLASH_CLOVER_SPACE.value * sqrt2;
+    final double width = Constant.SPLASH_CLOVER_R.value * (2 + sqrt2) +
+        Constant.SPLASH_CLOVER_SPACE.value * sqrt2;
 
     return MultiBlocListener(
       listeners: [
@@ -113,19 +115,30 @@ class SplashView extends StatelessWidget {
                         child: Stack(
                           alignment: AlignmentDirectional.topCenter,
                           children: [
-                            ScaleLeaf(
+                            ScaleClover(
+                                width: width,
+                                height: height,
                                 color: Theme.of(context).primaryColor,
                                 index: 1,
                                 bgColor:
                                     Theme.of(context).scaffoldBackgroundColor),
                             ...List.generate(
                                 3,
-                                (index) => RotateLeaf(
+                                (index) => RotateClover(
+                                    width: width,
+                                    height: height,
                                     startDegree: 90.0 * index,
                                     color: Theme.of(context).primaryColor,
                                     index: index + 2,
                                     bgColor: Theme.of(context)
                                         .scaffoldBackgroundColor)),
+                            LeakClover(
+                                    width: width,
+                                    height: height,
+                                color: Theme.of(context).primaryColor,
+                                index: 5,
+                                bgColor:
+                                    Theme.of(context).scaffoldBackgroundColor)
                           ],
                         ),
                       ),
@@ -135,7 +148,9 @@ class SplashView extends StatelessWidget {
                     index: 5,
                     primary: Theme.of(context).primaryColor,
                   ),
-                  const SizedBox(height: 64,)
+                  const SizedBox(
+                    height: 64,
+                  )
                 ],
               ),
             ),
