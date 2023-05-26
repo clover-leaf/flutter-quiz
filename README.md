@@ -1,6 +1,11 @@
-# chicken
+# Flutter Quiz
 
-A new Flutter project.
+A quiz mobile app built with flutter
+
+## Screenshot
+
+<video src='/screenshot/screenshot.mp4'></video>
+
 
 ## To do
 
@@ -28,9 +33,6 @@ A new Flutter project.
 - [x] Add theme icon in drawer of room screen
 - [x] Add confirm when exit or submit of room screen
 - [x] Add loading room page
-- [x] Redesign option page
 - [ ] auto submit when timeout
 - [ ] save last quiz and answer when exit
-- [x] add white outline for each clover leaf
-- [x] add leak clover animation
-- [x] polish clover animation
+- [x] complete splash animation
