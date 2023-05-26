@@ -4,7 +4,7 @@ A quiz mobile app built with flutter
 
 ## Screenshot
 
-<video src='/screenshot/screenshot.mp4'></video>
+[![Screen Record](https://imgur.com/a/Db4qvme)](https://vimeo.com/830458012 "Flutter Quiz - Screen Record")
 
 
 ## To do
