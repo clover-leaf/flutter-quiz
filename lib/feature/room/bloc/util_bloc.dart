@@ -40,7 +40,7 @@ class UtilBloc extends Bloc<UtilEvent, UtilState> {
     }
 
     if (state.offsetDy + event.dy >= Constant.SIDETAB_OFFSET.value &&
-        state.offsetDy + event.dy <= _deviceHeight - 2 * Constant.SIDETAB_BUTTON_A.value + 40) {
+        state.offsetDy + event.dy <= _deviceHeight - 3 * Constant.SIDETAB_BUTTON_A.value) {
       newState = newState.copyWith(offsetDy: state.offsetDy + event.dy);
     }
     emit(newState);

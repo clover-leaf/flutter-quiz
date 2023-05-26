@@ -31,15 +31,15 @@ class AppTheme {
   static final TextTheme darkTextTheme = TextTheme(
     // quiz question and answer
     headline1: GoogleFonts.nunito(
-      fontSize: 13,
-      fontWeight: FontWeight.bold,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
       height: 1.4,
       color: Color(Palette.mWhite.color),
     ),
     // sidetab text
     headline2: GoogleFonts.nunito(
-      fontSize: 13,
-      fontWeight: FontWeight.bold,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
       height: 1.4,
       color: Color(Palette.mBlack.color),
     ),

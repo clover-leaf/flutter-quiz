@@ -19,7 +19,7 @@ class CategoryOption extends StatelessWidget {
           children: [
             Text(
               'Category: ',
-              style: Theme.of(context).textTheme.headline1!.copyWith(
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   color: Theme.of(context).primaryColor.withAlpha(193)),
             ),
             BlocBuilder<UtilBloc, UtilState>(
@@ -28,7 +28,7 @@ class CategoryOption extends StatelessWidget {
               builder: (context, state) {
                 return Text(
                   state.categoryList[state.categoryIndex].name,
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 );
               },
             )
@@ -111,7 +111,7 @@ class CategoryBox extends StatelessWidget {
           ),
           Text(
             category.name,
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
         ]),

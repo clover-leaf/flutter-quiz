@@ -121,10 +121,13 @@ class SuccessPage extends StatelessWidget {
                       SizedBox(
                         height: Constant.PADDING.value,
                       ),
-                      Buttonbox(
-                        iconSvg: MyIcon.BACK.value,
-                        label: 'Back to home',
-                        width: 168,
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).popUntil(ModalRoute.withName(PageName.OPTIONS.name)),
+                        child: Buttonbox(
+                          iconSvg: MyIcon.BACK.value,
+                          label: 'Back to home',
+                          width: 168,
+                        ),
                       ),
                       SizedBox(
                         height: Constant.PADDING.value * 4,

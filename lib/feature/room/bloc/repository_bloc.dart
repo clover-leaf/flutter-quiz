@@ -23,7 +23,6 @@ class RepositoryBloc extends Bloc<RepositoryEvent, RepositoryState> {
       Test test = await _testRepository.getTest(event.parameters);
        emit(RepositoryLoaded(test));
     } catch (e) {
-      print(e);
       emit(const RepositoryError());
     }
   }

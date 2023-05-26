@@ -18,7 +18,7 @@ class AmountOption extends StatelessWidget {
           children: [
             Text(
               'Number of quiz: ',
-              style: Theme.of(context).textTheme.headline1!.copyWith(
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   color: Theme.of(context).primaryColor.withAlpha(193)),
             ),
             BlocBuilder<UtilBloc, UtilState>(
@@ -26,7 +26,7 @@ class AmountOption extends StatelessWidget {
               builder: (context, state) {
                 return Text(
                   '${state.amount} quizzes',
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 );
               },
             )
@@ -42,7 +42,8 @@ class AmountOption extends StatelessWidget {
                 children: List.generate(
                     4,
                     (index) => AmountBox(
-                          amount: index == 0 ? 10  : 25 * pow(2, index - 1).toInt(),
+                          amount:
+                              index == 0 ? 10 : 25 * pow(2, index - 1).toInt(),
                         ))))
       ],
     );
@@ -63,7 +64,7 @@ class AmountBox extends StatelessWidget {
       onTap: () => context.read<UtilBloc>().add(ChangeAmount(amount)),
       child: SizedBox(
         height: Constant.OPTION_BOX_HEIGHT.value - 32,
-        width: Constant.OPTION_BOX_WIDTH.value,
+        width: Constant.OPTION_BOX_WIDTH.value - 8,
         child: Column(children: [
           BlocBuilder<UtilBloc, UtilState>(
             buildWhen: (previous, current) {
@@ -86,14 +87,12 @@ class AmountBox extends StatelessWidget {
                         ? Theme.of(context).primaryColor
                         : Theme.of(context).scaffoldBackgroundColor),
                 child: Center(
-                  child: Text(
-                    amount.toString(),
-                    style: Theme.of(context).textTheme.headline1!.copyWith(
-                      color: isActive ? Theme.of(context).scaffoldBackgroundColor : 
-                      Theme.of(context).primaryColor,
-                      fontSize: 15
-                    )
-                  ),
+                  child: Text(amount.toString(),
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                          color: isActive
+                              ? Theme.of(context).scaffoldBackgroundColor
+                              : Theme.of(context).primaryColor,
+                          fontSize: 15)),
                 ),
               );
             },

@@ -18,7 +18,7 @@ class DifficultyOption extends StatelessWidget {
           children: [
             Text(
               'Difficulty: ',
-              style: Theme.of(context).textTheme.headline1!.copyWith(
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   color: Theme.of(context).primaryColor.withAlpha(193)),
             ),
             BlocBuilder<UtilBloc, UtilState>(
@@ -27,7 +27,7 @@ class DifficultyOption extends StatelessWidget {
               builder: (context, state) {
                 return Text(
                   state.difficultyList[state.difficultyIndex].name,
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 );
               },
             )
@@ -70,7 +70,7 @@ class DifficultBox extends StatelessWidget {
       onTap: () => context.read<UtilBloc>().add(ChangeDifficulty(index)),
       child: SizedBox(
         height: Constant.OPTION_BOX_HEIGHT.value,
-        width: Constant.OPTION_BOX_WIDTH.value,
+        width: Constant.OPTION_BOX_WIDTH.value - 8,
         child: Column(children: [
           BlocBuilder<UtilBloc, UtilState>(
             buildWhen: (previous, current) {
@@ -108,7 +108,7 @@ class DifficultBox extends StatelessWidget {
           ),
           Text(
             difficulty.name,
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
         ]),

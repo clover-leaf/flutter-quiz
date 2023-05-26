@@ -17,7 +17,7 @@ class LocalTestApi extends TestApi {
           "correct_answer":"過失"
         },
         {
-          "question": "ここの研究 _______ の多くは古代言語で記された文章を含んでいる。",
+          "question": "ここの研究 ____ の多くは古代言語で記された文章を含んでいる。",
           "incorrect_answers": ["給料","資料","送料"],
           "correct_answer":"原料"
         },

@@ -17,7 +17,7 @@ class DurationOption extends StatelessWidget {
           children: [
             Text(
               'Test duration: ',
-              style: Theme.of(context).textTheme.headline1!.copyWith(
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   color: Theme.of(context).primaryColor.withAlpha(193)),
             ),
             BlocBuilder<UtilBloc, UtilState>(
@@ -25,7 +25,7 @@ class DurationOption extends StatelessWidget {
               builder: (context, state) {
                 return Text(
                   state.duration.getStylishTotal(),
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 );
               },
             )
@@ -61,7 +61,7 @@ class DurationBox extends StatelessWidget {
       onTap: () => context.read<UtilBloc>().add(ChangeDuration(duration)),
       child: SizedBox(
         height: Constant.OPTION_BOX_HEIGHT.value - 32,
-        width: Constant.OPTION_BOX_WIDTH.value,
+        width: Constant.OPTION_BOX_WIDTH.value - 8,
         child: Column(children: [
           BlocBuilder<UtilBloc, UtilState>(
             buildWhen: (previous, current) {
@@ -85,7 +85,7 @@ class DurationBox extends StatelessWidget {
                         : Theme.of(context).scaffoldBackgroundColor),
                 child: Center(
                   child: Text((duration.total ~/ 60).toString(),
-                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
                           color: isActive
                               ? Theme.of(context).scaffoldBackgroundColor
                               : Theme.of(context).primaryColor,

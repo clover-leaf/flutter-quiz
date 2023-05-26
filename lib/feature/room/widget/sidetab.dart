@@ -77,11 +77,14 @@ class Sidetab extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  final bool value = await showDialog<bool>(
+                  await showDialog<bool>(
                           context: context,
-                          builder: (context) => const ConfirmDialog()) ??
-                      true;
-                  if (value) Navigator.of(context).pop();
+                          builder: (context) => const ConfirmDialog())
+                      .then((value) {
+                    if (value != null && value) {
+                      Navigator.of(context).pop();
+                    }
+                  });
                 },
                 child: Buttonbox(
                   iconSvg: MyIcon.LOGOUT.value,

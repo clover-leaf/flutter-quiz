@@ -66,6 +66,7 @@ class SplashView extends StatelessWidget {
               };
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
+                    settings: RouteSettings(name: PageName.OPTIONS.name),
                       builder: (context) => OptionPage(
                             optionList: optionList,
                           )),
@@ -90,6 +91,7 @@ class SplashView extends StatelessWidget {
               };
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
+                    settings: RouteSettings(name: PageName.OPTIONS.name),
                       builder: (context) => OptionPage(
                             optionList: optionList,
                           )),
