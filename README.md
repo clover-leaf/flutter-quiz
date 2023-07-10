@@ -1,6 +1,6 @@
 # Flutter Quiz
 
-A quiz mobile app built with flutter
+A quiz mobile app built with flutter using Open [Trivia Database](https://opentdb.com)
 
 ## Screenshot
 
