@@ -1,6 +1,6 @@
 # Flutter Quiz
 
-A quiz application contains a collection of number of different types of quizzes like technical, games, sports, etc. Questions are taken from the Open Trivia Database API.
+A quiz mobile app built with flutter
 
 ## Screenshot
 ![Screenshot](./screenshot/frame1.jpg)
